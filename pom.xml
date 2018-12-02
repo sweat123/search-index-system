@@ -23,6 +23,8 @@
         <version.log4j>2.8.2</version.log4j>
         <version.junit>4.12</version.junit>
         <version.fest>1.4</version.fest>
+
+        <version.avro>1.8.2</version.avro>
     </properties>
 
     <dependencyManagement>
@@ -63,6 +65,12 @@
                 <groupId>com.laomei.connect</groupId>
                 <artifactId>sis-core</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.avro</groupId>
+                <artifactId>avro</artifactId>
+                <version>${version.avro}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,5 +1,7 @@
 package com.laomei.sis.solr;
 
+import com.laomei.sis.Pipeline;
+import com.laomei.sis.SisPipeline;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.apache.kafka.connect.sink.SinkTask;
 import org.slf4j.Logger;
@@ -16,6 +18,8 @@ public class SolrSinkTask extends SinkTask {
 
     private SolrConnectorConfig config;
 
+    private Pipeline            pipeline;
+
     @Override
     public String version() {
         return Version.version();
@@ -25,24 +29,31 @@ public class SolrSinkTask extends SinkTask {
     public void start(final Map<String, String> props) {
         log.info("Starting task");
         config = new SolrConnectorConfig(props);
-        /*
-            1. init transforms
-            2. init executors
-            3. init reducers
-         */
-        initContext();
+        initPipeline();
     }
 
     @Override
     public void put(final Collection<SinkRecord> records) {
-
+        if (records.isEmpty()) {
+            return;
+        }
+        log.info("Received {} records. Begin to handle by pipeline", records.size());
+        pipeline.handle(records);
+        log.info("Finished handle {} records", records.size());
     }
 
     @Override
     public void stop() {
+        if (pipeline != null) {
+            pipeline.shutdown();
+        }
     }
 
-    private void initContext() {
-
+    private void initPipeline() {
+        SolrTaskContext solrTaskContext = new SolrTaskContext(config);
+        solrTaskContext.initTransform();
+        solrTaskContext.initExecutor();
+        solrTaskContext.initSolrCloudReducer();
+        this.pipeline = new SisPipeline(solrTaskContext);
     }
 }
