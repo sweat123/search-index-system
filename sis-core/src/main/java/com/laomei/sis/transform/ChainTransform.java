@@ -1,4 +1,7 @@
-package com.laomei.sis;
+package com.laomei.sis.transform;
+
+import com.laomei.sis.SisRecord;
+import com.laomei.sis.Transform;
 
 import java.util.Collections;
 import java.util.List;
