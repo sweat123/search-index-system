@@ -30,6 +30,18 @@ public class ChainTransform implements Transform {
     }
 
     @Override
+    public SisRecord trans(final SisRecord sisRecord) {
+        SisRecord record = null;
+        for (Transform transform : transforms) {
+            record = transform.trans(sisRecord);
+            if (record == null) {
+                return null;
+            }
+        }
+        return record;
+    }
+
+    @Override
     public void close() {
         transforms.forEach(Transform::close);
     }

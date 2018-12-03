@@ -1,7 +1,7 @@
 package com.laomei.sis.solr;
 
-import java.io.IOException;
-import java.io.InputStream;
+import com.laomei.sis.IoUtil;
+
 import java.util.Properties;
 
 /**
@@ -25,12 +25,6 @@ public class Version {
     private static void initVersion() {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         String path = "com/laomei/sis/solr/build.version";
-        try(InputStream stream = classLoader.getResourceAsStream(path)) {
-            Properties props = new Properties();
-            props.load(stream);
-            VERSION = props;
-        } catch (IOException e) {
-            throw new IllegalStateException("Unable to find or read the " + path + " file");
-        }
+        VERSION = IoUtil.loadProperties(path, classLoader);
     }
 }

@@ -25,6 +25,7 @@
         <version.fest>1.4</version.fest>
 
         <version.avro>1.8.2</version.avro>
+        <version.fastjson>1.2.54</version.fastjson>
     </properties>
 
     <dependencyManagement>
@@ -60,17 +61,20 @@
                 <artifactId>junit</artifactId>
                 <version>${version.junit}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.laomei.connect</groupId>
                 <artifactId>sis-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.apache.avro</groupId>
                 <artifactId>avro</artifactId>
                 <version>${version.avro}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${version.fastjson}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -10,6 +10,12 @@ import java.util.List;
  */
 public class SolrUpdateReducer implements Reducer {
 
+    private final SolrConnectorConfig configs;
+
+    public SolrUpdateReducer(SolrConnectorConfig configs) {
+        this.configs = configs;
+    }
+
     @Override
     public void reduce(List<SisRecord> sisRecords) {
 

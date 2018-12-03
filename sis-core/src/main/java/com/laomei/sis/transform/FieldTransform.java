@@ -4,9 +4,7 @@ import com.laomei.sis.SisRecord;
 import com.laomei.sis.Transform;
 import org.apache.avro.generic.GenericRecord;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -19,19 +17,16 @@ public class FieldTransform implements Transform {
 
     private final Collection<String> fields;
 
-    private FieldTransform(Collection<String> fields) {
+    public FieldTransform(Collection<String> fields) {
         this.fields = fields;
     }
 
     @Override
-    public List<SisRecord> trans(final List<SisRecord> sisRecords) {
-        final List<SisRecord> records = new ArrayList<>(sisRecords.size());
-        for (SisRecord sisRecord : sisRecords) {
-            if (fieldsValueNotSame(sisRecord)) {
-                records.add(sisRecord);
-            }
+    public SisRecord trans(final SisRecord sisRecord) {
+        if (fieldsValueNotSame(sisRecord)) {
+            return sisRecord;
         }
-        return records;
+        return null;
     }
 
     /**

@@ -9,7 +9,7 @@ public abstract class AbstractTaskContext {
 
     protected Reducer   reducer;
 
-    protected Transform transform;
+    protected TransformContext transformContext;
 
     protected Executor  executor;
 
@@ -31,8 +31,8 @@ public abstract class AbstractTaskContext {
         return this.reducer;
     }
 
-    public Transform transform() {
-        return this.transform;
+    public TransformContext transformContext() {
+        return this.transformContext;
     }
 
     public Executor executor() {
@@ -43,8 +43,8 @@ public abstract class AbstractTaskContext {
         if (reducer != null) {
             reducer.close();
         }
-        if (transform != null) {
-            transform.close();
+        if (transformContext != null) {
+            transformContext.shutdown();
         }
         if (executor != null) {
             executor.close();

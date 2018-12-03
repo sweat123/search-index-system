@@ -20,7 +20,7 @@ public class SisPipeline implements Pipeline {
 
     private final Reducer             reducer;
 
-    private final Transform           transform;
+    private final TransformContext    transformContext;
 
     private final Executor            executor;
 
@@ -28,7 +28,7 @@ public class SisPipeline implements Pipeline {
 
     public SisPipeline(AbstractTaskContext taskContext) {
         this.taskContext = taskContext;
-        this.transform = taskContext.transform();
+        this.transformContext = taskContext.transformContext();
         this.executor = taskContext.executor();
         this.reducer = taskContext.reducer();
         this.isClose = new AtomicBoolean(false);
@@ -40,11 +40,19 @@ public class SisPipeline implements Pipeline {
             return;
         }
         List<SisRecord> sisRecords = convertToSisRecord(sinkRecords);
-        List<SisRecord> transformedRecords = transform.trans(sisRecords);
-        if (transformedRecords.isEmpty()) {
+        List<SisRecord> transedRecords = new ArrayList<>(sisRecords.size());
+        for (SisRecord sisRecord : sisRecords) {
+            String topic = sisRecord.getTopic();
+            Transform transform = transformContext.getTransform(topic);
+            SisRecord record = transform.trans(sisRecord);
+            if (record != null) {
+                transedRecords.add(record);
+            }
+        }
+        if (transedRecords.isEmpty()) {
             return;
         }
-        List<SisRecord> executedRecords = executor.execute(transformedRecords);
+        List<SisRecord> executedRecords = executor.execute(transedRecords);
         if (executedRecords.isEmpty()) {
             return;
         }
