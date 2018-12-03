@@ -1,6 +1,6 @@
 package com.laomei.sis;
 
-import com.laomei.sis.SisRecord;
+import java.util.List;
 
 /**
  * @author laomei on 2018/12/2 14:41
@@ -8,6 +8,8 @@ import com.laomei.sis.SisRecord;
 public interface Executor {
 
     SisRecord execute(SisRecord record);
+
+    List<SisRecord> execute(List<SisRecord> sisRecords);
 
     void close();
 }

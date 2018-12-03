@@ -5,17 +5,27 @@ package com.laomei.sis;
  */
 public abstract class AbstractTaskContext {
 
-    protected Reducer reducer;
+    protected String    name;
+
+    protected Reducer   reducer;
 
     protected Transform transform;
 
-    protected Executor executor;
+    protected Executor  executor;
+
+    public AbstractTaskContext(String name) {
+        this.name = name;
+    }
 
     public abstract void initSolrCloudReducer();
 
     public abstract void initTransform();
 
     public abstract void initExecutor();
+
+    public String  getTaskName() {
+        return name;
+    }
 
     public Reducer reducer() {
         return this.reducer;

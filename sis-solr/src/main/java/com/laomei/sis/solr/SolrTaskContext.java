@@ -9,7 +9,8 @@ public class SolrTaskContext extends AbstractTaskContext {
 
     private final SolrConnectorConfig configs;
 
-    public SolrTaskContext(SolrConnectorConfig configs) {
+    public SolrTaskContext(String name, SolrConnectorConfig configs) {
+        super(name);
         this.configs = configs;
     }
 
