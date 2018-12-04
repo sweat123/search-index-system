@@ -3,7 +3,6 @@ package com.laomei.sis.transform;
 import com.laomei.sis.SisRecord;
 import com.laomei.sis.Transform;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -15,18 +14,6 @@ public class ChainTransform implements Transform {
 
     public ChainTransform(List<Transform> transforms) {
         this.transforms = transforms;
-    }
-
-    @Override
-    public List<SisRecord> trans(final List<SisRecord> sisRecords) {
-        List<SisRecord> records = sisRecords;
-        for (Transform transform : transforms) {
-            records = transform.trans(records);
-            if (records.isEmpty()) {
-                return Collections.emptyList();
-            }
-        }
-        return records;
     }
 
     @Override

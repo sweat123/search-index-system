@@ -59,7 +59,7 @@ public abstract class DefaultTaskContext extends AbstractTaskContext {
             transforms.add(new FilterTransform(configuration.getFilter()));
         }
         if (configuration.getPlaceholder() != null) {
-            transforms.add(new PlaceholderTransform(configuration.getPlaceholder()));
+            transforms.add(new PlaceholderTransform(configuration.getPlaceholder().getConfig()));
         }
         return new ChainTransform(transforms);
     }
