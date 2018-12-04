@@ -38,10 +38,6 @@ public class JdbcContext {
         dataSources.add(ds);
     }
 
-    public void addTddlDataSource(String appName) {
-        throw new UnsupportedOperationException("not support tddl DataSource now");
-    }
-
     public JdbcTemplate getJdbcTemplateByAlias(String alias) {
         return jdbcTemplateMap.get(alias);
     }
