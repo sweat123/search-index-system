@@ -9,7 +9,7 @@ public class ExecutorConfiguration {
 
     private String name;
 
-    private boolean required;
+    private boolean required = false;
 
     public String getSql() {
         return sql;

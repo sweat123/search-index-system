@@ -62,4 +62,8 @@ public class SisRecord {
     public Object dropValue(String key) {
         return context.remove(key);
     }
+
+    public boolean isEmpty() {
+        return context.isEmpty();
+    }
 }

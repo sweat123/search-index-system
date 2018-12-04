@@ -15,7 +15,7 @@ public class SolrTaskContext extends DefaultTaskContext {
     }
 
     @Override
-    public void initSolrCloudReducer() {
+    public void initSinkReducer() {
         String mode = configs.solrCloudIndexMode;
         if ("update".equals(mode)) {
             reducer = new SolrUpdateReducer(configs);

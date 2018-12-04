@@ -51,9 +51,10 @@ public class SolrSinkTask extends SinkTask {
 
     private void initPipeline() {
         SolrTaskContext solrTaskContext = new SolrTaskContext(config.getString("name"), config);
+        solrTaskContext.initJdbcContext();
         solrTaskContext.initTransform();
         solrTaskContext.initExecutor();
-        solrTaskContext.initSolrCloudReducer();
+        solrTaskContext.initReducer();
         this.pipeline = new SisPipeline(solrTaskContext);
     }
 }

@@ -13,6 +13,8 @@ public class SourceConfiguration {
 
     private Placeholder placeholder;
 
+    private SqlTrans sqlTrans;
+
     private Filter filter;
 
     public String getTopic() {
@@ -53,5 +55,13 @@ public class SourceConfiguration {
 
     public void setFilter(final Filter filter) {
         this.filter = filter;
+    }
+
+    public SqlTrans getSqlTrans() {
+        return sqlTrans;
+    }
+
+    public void setSqlTrans(final SqlTrans sqlTrans) {
+        this.sqlTrans = sqlTrans;
     }
 }

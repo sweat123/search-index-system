@@ -13,15 +13,22 @@ public abstract class AbstractTaskContext {
 
     protected Executor  executor;
 
+    protected JdbcContext jdbcContext;
+
+    protected volatile boolean jdbcInited;
+
     public AbstractTaskContext(String name) {
         this.name = name;
+        this.jdbcInited = false;
     }
 
-    public abstract void initSolrCloudReducer();
+    public abstract void initReducer();
 
     public abstract void initTransform();
 
     public abstract void initExecutor();
+
+    public abstract void initJdbcContext();
 
     public String  getTaskName() {
         return name;
@@ -48,6 +55,9 @@ public abstract class AbstractTaskContext {
         }
         if (executor != null) {
             executor.close();
+        }
+        if (jdbcContext != null) {
+            jdbcContext.close();
         }
     }
 }

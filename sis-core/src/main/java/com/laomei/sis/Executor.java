@@ -7,8 +7,6 @@ import java.util.List;
  */
 public interface Executor {
 
-    SisRecord execute(SisRecord record);
-
     List<SisRecord> execute(List<SisRecord> sisRecords);
 
     void close();
