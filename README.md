@@ -10,9 +10,9 @@
 
 ## TODO
 
-- [] `Executor`每条`sql`支持不同的`dataSource`;
-- [] 支持写入`ES`。
-- [] 支持写入`Mysql`。
+- [ ] `Executor`每条`sql`支持不同的`dataSource`;
+- [ ] 支持写入`ES`。
+- [ ] 支持写入`Mysql`。
 
 ## Any Problem
 
