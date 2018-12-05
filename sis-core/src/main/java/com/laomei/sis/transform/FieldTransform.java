@@ -2,7 +2,7 @@ package com.laomei.sis.transform;
 
 import com.laomei.sis.SisRecord;
 import com.laomei.sis.Transform;
-import org.apache.avro.generic.GenericRecord;
+import org.apache.kafka.connect.data.Struct;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -35,8 +35,8 @@ public class FieldTransform implements Transform {
      * 3. return true;
      */
     private boolean fieldsValueNotSame(SisRecord sisRecord) {
-        GenericRecord before = (GenericRecord) sisRecord.getValue("before");
-        GenericRecord after = (GenericRecord) sisRecord.getValue("after");
+        Struct before = (Struct) sisRecord.getValue("before");
+        Struct after = (Struct) sisRecord.getValue("after");
         if (after == null && before == null) {
             return false;
         }

@@ -1,7 +1,5 @@
 package com.laomei.sis.solr;
 
-import com.laomei.sis.IoUtil;
-
 import java.util.Properties;
 
 /**
@@ -9,7 +7,7 @@ import java.util.Properties;
  */
 public class Version {
 
-    private static Properties VERSION = null;
+    private static String VERSION = "unknown";
 
     public static String version() {
         if (VERSION == null) {
@@ -19,12 +17,15 @@ public class Version {
                 }
             }
         }
-        return VERSION.getProperty("version");
+        return VERSION;
     }
 
     private static void initVersion() {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        String path = "classpath*:build.version";
-        VERSION = IoUtil.loadProperties(path, classLoader);
+        try {
+            Properties props = new Properties();
+            props.load(Version.class.getResourceAsStream("/build.version"));
+            VERSION = props.getProperty("version");
+        } catch (Exception ignore) {
+        }
     }
 }
