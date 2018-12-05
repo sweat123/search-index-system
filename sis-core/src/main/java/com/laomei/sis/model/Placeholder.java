@@ -14,4 +14,9 @@ public class Placeholder {
     public void setConfig(final String config) {
         this.config = config;
     }
+
+    @Override
+    public String toString() {
+        return "Placeholder{ " + "config: " + config + " }";
+    }
 }

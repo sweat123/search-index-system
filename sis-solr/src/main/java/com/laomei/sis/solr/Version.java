@@ -24,7 +24,7 @@ public class Version {
 
     private static void initVersion() {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        String path = "com/laomei/sis/solr/build.version";
+        String path = "classpath*:build.version";
         VERSION = IoUtil.loadProperties(path, classLoader);
     }
 }

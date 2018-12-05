@@ -2,7 +2,7 @@ package com.laomei.sis.transform;
 
 import com.laomei.sis.SisRecord;
 import com.laomei.sis.Transform;
-import org.apache.avro.generic.GenericRecord;
+import org.apache.kafka.connect.data.Struct;
 
 /**
  * @author laomei on 2018/12/3 13:30
@@ -20,9 +20,11 @@ public class RecordTransform implements Transform {
 
     private SisRecord unWrapperRecord(String key, SisRecord record) {
         SisRecord sisRecord = new SisRecord(record.getTopic());
-        GenericRecord data = (GenericRecord) record.getValue(key);
-        data.getSchema().getFields().forEach(field -> {
-            sisRecord.addValue(field.name(), data.get(field.name()));
+        Struct data = (Struct) record.getValue(key);
+        data.schema().fields().forEach(field -> {
+            String name = field.name();
+            Object value = data.get(field);
+            sisRecord.addValue(name, value);
         });
         return sisRecord;
     }

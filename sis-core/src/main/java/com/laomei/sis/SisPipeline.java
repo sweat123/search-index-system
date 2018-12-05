@@ -56,7 +56,7 @@ public class SisPipeline implements Pipeline {
         if (executedRecords.isEmpty()) {
             return;
         }
-        reducer.reduce(sisRecords);
+        reducer.reduce(executedRecords);
     }
 
     @Override

@@ -18,9 +18,9 @@ public class ChainTransform implements Transform {
 
     @Override
     public SisRecord trans(final SisRecord sisRecord) {
-        SisRecord record = null;
+        SisRecord record = sisRecord;
         for (Transform transform : transforms) {
-            record = transform.trans(sisRecord);
+            record = transform.trans(record);
             if (record == null) {
                 return null;
             }

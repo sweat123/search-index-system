@@ -14,4 +14,9 @@ public class Record {
     public void setFilterBefore(final boolean filterBefore) {
         this.filterBefore = filterBefore;
     }
+
+    @Override
+    public String toString() {
+        return "Record{ " + " filterBefore: " + filterBefore + " }";
+    }
 }

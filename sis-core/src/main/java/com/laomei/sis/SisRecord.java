@@ -1,6 +1,6 @@
 package com.laomei.sis;
 
-import org.apache.avro.generic.GenericRecord;
+import org.apache.kafka.connect.data.Struct;
 import org.apache.kafka.connect.sink.SinkRecord;
 
 import java.util.Collections;
@@ -32,9 +32,9 @@ public class SisRecord {
     public SisRecord(SinkRecord record) {
         this.context = new HashMap<>();
         this.topic = record.topic();
-        GenericRecord value = (GenericRecord) record.value();
-        GenericRecord before = (GenericRecord) value.get("before");
-        GenericRecord after = (GenericRecord) value.get("after");
+        Struct value = (Struct) record.value();
+        Struct before = (Struct) value.get("before");
+        Struct after = (Struct) value.get("after");
         context.put("after", after);
         context.put("before", before);
     }
@@ -65,5 +65,12 @@ public class SisRecord {
 
     public boolean isEmpty() {
         return context.isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("topic: ").append(topic).append("; context: ").append(context);
+        return sb.toString();
     }
 }

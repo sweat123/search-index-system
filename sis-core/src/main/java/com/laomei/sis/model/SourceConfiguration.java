@@ -64,4 +64,17 @@ public class SourceConfiguration {
     public void setSqlTrans(final SqlTrans sqlTrans) {
         this.sqlTrans = sqlTrans;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{ topic: ").append(topic)
+                .append(", record: ").append(record)
+                .append(", fields: ").append(fields)
+                .append(", placeholder: ").append(placeholder)
+                .append(", sqlTrans: ").append(sqlTrans)
+                .append(", filter: ").append(filter)
+                .append(" }");
+        return sb.toString();
+    }
 }

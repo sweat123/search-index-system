@@ -27,7 +27,7 @@ public class SolrSinkTask extends SinkTask {
 
     @Override
     public void start(final Map<String, String> props) {
-        log.info("Starting task");
+        log.info("Starting solr sink task");
         config = new SolrConnectorConfig(props);
         initPipeline();
     }
@@ -50,7 +50,7 @@ public class SolrSinkTask extends SinkTask {
     }
 
     private void initPipeline() {
-        SolrTaskContext solrTaskContext = new SolrTaskContext(config.getString("name"), config);
+        SolrTaskContext solrTaskContext = new SolrTaskContext(config.getString("sis.name"), config);
         solrTaskContext.initJdbcContext();
         solrTaskContext.initTransform();
         solrTaskContext.initExecutor();
