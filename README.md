@@ -1,5 +1,9 @@
 # index system base on kafka connect
 
+## 文档
+
+[文档地址](docs/目录.md)
+
 ## 特点
 
 1. 基于`kafka connect`，天然支持高可用。
