@@ -1,6 +1,7 @@
 package com.laomei.sis;
 
 import com.alibaba.fastjson.JSON;
+import com.laomei.sis.exception.JdbcContextException;
 import com.laomei.sis.executor.NoopExecutor;
 import com.laomei.sis.executor.SqlExecutor;
 import com.laomei.sis.model.ExecutorConfigurations;
@@ -32,7 +33,7 @@ public abstract class DefaultTaskContext extends AbstractTaskContext {
     }
 
     @Override
-    public void initReducer() {
+    public void initReducer() throws JdbcContextException {
         if (!jdbcInited) {
             initJdbcContext();
         }
@@ -42,7 +43,7 @@ public abstract class DefaultTaskContext extends AbstractTaskContext {
     public abstract void initSinkReducer();
 
     @Override
-    public void initTransform() {
+    public void initTransform() throws JdbcContextException {
         if (!jdbcInited) {
             initJdbcContext();
         }
@@ -56,7 +57,7 @@ public abstract class DefaultTaskContext extends AbstractTaskContext {
     }
 
     @Override
-    public void initExecutor() {
+    public void initExecutor() throws JdbcContextException {
         if (!jdbcInited) {
             initJdbcContext();
         }
@@ -70,7 +71,7 @@ public abstract class DefaultTaskContext extends AbstractTaskContext {
     }
 
     @Override
-    public void initJdbcContext() {
+    public void initJdbcContext() throws JdbcContextException {
         if (jdbcInited) {
             return;
         }

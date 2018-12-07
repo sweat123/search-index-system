@@ -2,6 +2,7 @@ package com.laomei.sis.solr;
 
 import com.laomei.sis.Pipeline;
 import com.laomei.sis.SisPipeline;
+import com.laomei.sis.exception.JdbcContextException;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.apache.kafka.connect.sink.SinkTask;
 import org.slf4j.Logger;
@@ -29,7 +30,11 @@ public class SolrSinkTask extends SinkTask {
     public void start(final Map<String, String> props) {
         log.info("Starting solr sink task");
         config = new SolrConnectorConfig(props);
-        initPipeline();
+        try {
+            initPipeline();
+        } catch (JdbcContextException e) {
+            throw new RuntimeException("init sink pipeline failed", e);
+        }
     }
 
     @Override
@@ -49,7 +54,7 @@ public class SolrSinkTask extends SinkTask {
         }
     }
 
-    private void initPipeline() {
+    private void initPipeline() throws JdbcContextException {
         SolrTaskContext solrTaskContext = new SolrTaskContext(config.getString("sis.name"), config);
         solrTaskContext.initJdbcContext();
         solrTaskContext.initTransform();

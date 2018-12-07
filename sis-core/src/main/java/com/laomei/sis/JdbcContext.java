@@ -1,5 +1,6 @@
 package com.laomei.sis;
 
+import com.laomei.sis.exception.JdbcContextException;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,14 +27,21 @@ public class JdbcContext {
         this.dataSources = new HashSet<>();
     }
 
-    public void addDataSource(String url, String username, String password, String alias) {
-        HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(url);
-        config.setUsername(username);
-        config.setPassword(password);
-        config.setMaximumPoolSize(5);
-        HikariDataSource ds = new HikariDataSource(config);
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+    public void addDataSource(String url, String username, String password, String alias)
+            throws JdbcContextException {
+        JdbcTemplate jdbcTemplate;
+        HikariDataSource ds;
+        try {
+            HikariConfig config = new HikariConfig();
+            config.setJdbcUrl(url);
+            config.setUsername(username);
+            config.setPassword(password);
+            config.setMaximumPoolSize(3);
+            ds = new HikariDataSource(config);
+            jdbcTemplate = new JdbcTemplate(ds);
+        } catch (Exception e) {
+            throw new JdbcContextException("init jdbc template failed", e);
+        }
         jdbcTemplateMap.put(alias, jdbcTemplate);
         dataSources.add(ds);
     }

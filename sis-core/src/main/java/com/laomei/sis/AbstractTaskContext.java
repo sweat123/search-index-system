@@ -1,5 +1,7 @@
 package com.laomei.sis;
 
+import com.laomei.sis.exception.JdbcContextException;
+
 /**
  * @author laomei on 2018/12/2 15:09
  */
@@ -22,13 +24,13 @@ public abstract class AbstractTaskContext {
         this.jdbcInited = false;
     }
 
-    public abstract void initReducer();
+    public abstract void initReducer() throws JdbcContextException;
 
-    public abstract void initTransform();
+    public abstract void initTransform() throws JdbcContextException;
 
-    public abstract void initExecutor();
+    public abstract void initExecutor() throws JdbcContextException;
 
-    public abstract void initJdbcContext();
+    public abstract void initJdbcContext() throws JdbcContextException;
 
     public String  getTaskName() {
         return name;
