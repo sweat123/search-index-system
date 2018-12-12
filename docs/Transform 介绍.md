@@ -1,6 +1,6 @@
 # Transform 工作模型
 
-`SIS`能够订阅多个`kafka topic`, 从每个`topic`获取的数据，都会被此`topic`对应的零或多个`transform`处理、转化、过滤; 最终产生新的`sis record`。对于不同的`topic`，经过不同的`transform`处理之后，要保证最后产生的`record`是 *同一纬度*。
+`SIS`能够订阅多个`kafka topic`, 从每个`topic`获取的数据，都会被此`topic`对应的零或多个`transform`处理、转化、过滤; 最终产生新的`sis record`。对于不同的`topic`，经过不同的`transform`处理之后，要保证最后产生的`record`是 *同一维度*。
 
 ![transform model](./pics/transform-work.PNG) 
 
@@ -13,11 +13,11 @@
 3. `TopicC`字段有`d,e`;
 4. 最后`transform`处理后的产生的数据字段必须为`c`;
 
-对于`TopicA, TopicB`的管道模型，可以直接从原始`record`里获取`c`字段；而对于`TopicC`它的原始数据里不存在`c`字段，它就需要通过`SqlTransform`，从数据库中根据现有的`d,e`关联字段，反查出需要的`c`字段。这样`3`个不同的管道模型，最后产出了 *同一纬度*  的数据。
+对于`TopicA, TopicB`的管道模型，可以直接从原始`record`里获取`c`字段；而对于`TopicC`它的原始数据里不存在`c`字段，它就需要通过`SqlTransform`，从数据库中根据现有的`d,e`关联字段，反查出需要的`c`字段。这样`3`个不同的管道模型，最后产出了 *同一维度*  的数据。
 
 
 
-获取到 *同一纬度*  的新`sis record`后，`transform`模块的工作到此结束，新的数据会被交付给下游`executor`;
+获取到 *同一维度*  的新`sis record`后，`transform`模块的工作到此结束，新的数据会被交付给下游`executor`;
 
 
 
