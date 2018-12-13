@@ -1,5 +1,12 @@
 # index system base on kafka connect
 
+## 使用前必看
+
+项目能够运行的前提条件:
+
+1. `kafka`版本`1.0.0`;
+2. `kafka topic`数据需要来自`debezium`，简单的理解: 强依赖`debezium`;
+
 ## 文档
 
 [文档地址](docs/目录.md)
@@ -14,9 +21,10 @@
 
 ## TODO
 
-- [ ] `Executor`每条`sql`支持不同的`dataSource`;
+- [x] `Executor`每条`sql`支持不同的`dataSource`。
 - [ ] 支持写入`ES`。
 - [ ] 支持写入`Mysql`。
+- [ ] 单元测试覆盖。
 
 ## Any Problem
 

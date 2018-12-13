@@ -3,11 +3,15 @@ package com.laomei.sis;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static com.laomei.sis.Transform.SIS_TRANSFORMED_RESULT;
 
 /**
  * @author laomei on 2018/12/2 15:08
@@ -52,7 +56,8 @@ public class SisPipeline implements Pipeline {
         if (transedRecords.isEmpty()) {
             return;
         }
-        List<SisRecord> executedRecords = executor.execute(transedRecords);
+        List<SisRecord> records = convertTransformResultsToSisRecords(transedRecords);
+        List<SisRecord> executedRecords = executor.execute(records);
         if (executedRecords.isEmpty()) {
             return;
         }
@@ -67,6 +72,20 @@ public class SisPipeline implements Pipeline {
                 taskContext.close();
             }
         }
+    }
+
+    private List<SisRecord> convertTransformResultsToSisRecords(List<SisRecord> transedRecords) {
+        List<SisRecord> sisRecords = new ArrayList<>();
+        for (SisRecord sisRecord : transedRecords) {
+            String topic = sisRecord.getTopic();
+            List<Map<String, Object>> transedResults = (List<Map<String, Object>>) sisRecord.getValue(SIS_TRANSFORMED_RESULT);
+            for (Map<String, Object> result : transedResults) {
+                if (!CollectionUtils.isEmpty(result)) {
+                    sisRecords.add(new SisRecord(topic, result));
+                }
+            }
+        }
+        return sisRecords;
     }
 
     private List<SisRecord> convertToSisRecord(Collection<SinkRecord> sinkRecords) {

@@ -4,6 +4,7 @@ import com.laomei.sis.SisRecord;
 import com.laomei.sis.Transform;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ import java.util.Map;
  */
 public class PlaceholderTransform implements Transform {
 
-    private final String[] placeholders;
+    private final String[]            placeholders;
 
     private final Map<String, String> fieldAlias;
 
@@ -31,7 +32,9 @@ public class PlaceholderTransform implements Transform {
             Object value = sisRecord.getValue(key);
             record.addValue(alias, value);
         }
-        return record;
+        SisRecord result = new SisRecord(sisRecord.getTopic());
+        result.addValue(SIS_TRANSFORMED_RESULT, Collections.singletonList(record.getContext()));
+        return result;
     }
 
     @Override

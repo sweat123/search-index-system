@@ -1,9 +1,10 @@
 package com.laomei.sis;
 
-import com.alibaba.fastjson.JSON;
 import com.laomei.sis.exception.JdbcContextException;
 import com.laomei.sis.executor.NoopExecutor;
 import com.laomei.sis.executor.SqlExecutor;
+import com.laomei.sis.model.DataSourceConfiguration;
+import com.laomei.sis.model.DataSourceConfigurations;
 import com.laomei.sis.model.ExecutorConfigurations;
 import com.laomei.sis.model.Fields;
 import com.laomei.sis.model.SourceConfiguration;
@@ -14,6 +15,7 @@ import com.laomei.sis.transform.FilterTransform;
 import com.laomei.sis.transform.PlaceholderTransform;
 import com.laomei.sis.transform.RecordTransform;
 import com.laomei.sis.transform.SqlTransform;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +50,7 @@ public abstract class DefaultTaskContext extends AbstractTaskContext {
             initJdbcContext();
         }
         String sourceConfigurations = config.sourceConfigurations;
-        SourceConfigurations configurations = JSON.parseObject(sourceConfigurations, SourceConfigurations.class);
+        SourceConfigurations configurations = JsonUtil.parse(sourceConfigurations, SourceConfigurations.class);
         configurations.getSourceConfigurations().forEach(configuration -> {
             String topic = configuration.getTopic();
             ChainTransform chainTransform = getChainTransform(configuration);
@@ -62,7 +64,7 @@ public abstract class DefaultTaskContext extends AbstractTaskContext {
             initJdbcContext();
         }
         String executorConfigurations = config.executorConfigurations;
-        ExecutorConfigurations configurations = JSON.parseObject(executorConfigurations, ExecutorConfigurations.class);
+        ExecutorConfigurations configurations = JsonUtil.parse(executorConfigurations, ExecutorConfigurations.class);
         if (configurations.getExecutorConfigurations().isEmpty()) {
             executor = new NoopExecutor();
         } else {
@@ -77,12 +79,37 @@ public abstract class DefaultTaskContext extends AbstractTaskContext {
         }
         jdbcInited = true;
         jdbcContext = new JdbcContext();
+        initDefaultDataSource();
+    }
+
+    private void initDefaultDataSource() throws JdbcContextException {
         //create default mysql jdbc configuration;
         //default jdbc template will be used in SqlTransform
         String url = config.defaultMysqlUrl;
         String username = config.defaultMysqlUsername;
         String password = config.defaultMysqlPassword;
-        jdbcContext.addDataSource(url, username, password, DEFAULT_JDBC_TEMPLATE);
+        registerDataSource(url, username, password, DEFAULT_JDBC_TEMPLATE);
+
+        //register other dataSource
+        String registerDataSourceConfigure = config.mysqlDataSourceRegister;
+        if (StringUtils.isEmpty(registerDataSourceConfigure)) {
+            return;
+        }
+        DataSourceConfigurations dataSourceConfigurations = JsonUtil.parse(registerDataSourceConfigure, DataSourceConfigurations.class);
+        if (dataSourceConfigurations != null) {
+            for (DataSourceConfiguration dataSourceConfiguration : dataSourceConfigurations.getDataSources()) {
+                String externalUrl = dataSourceConfiguration.getUrl();
+                String externalUsername = dataSourceConfiguration.getUsername();
+                String externalPassword = dataSourceConfiguration.getPassword();
+                String alias = dataSourceConfiguration.getAlias();
+                registerDataSource(externalUrl, externalUsername, externalPassword, alias);
+            }
+        }
+    }
+
+    private void registerDataSource(String url, String username, String password, String alias)
+            throws JdbcContextException {
+        jdbcContext.addDataSource(url, username, password, alias);
     }
 
     private ChainTransform getChainTransform(SourceConfiguration configuration) {
@@ -99,7 +126,7 @@ public abstract class DefaultTaskContext extends AbstractTaskContext {
         if (configuration.getPlaceholder() != null) {
             transforms.add(new PlaceholderTransform(configuration.getPlaceholder().getConfig()));
         } else if (configuration.getSqlTrans() != null) {
-            transforms.add(new SqlTransform(configuration.getSqlTrans().getSql(), jdbcContext.getDefaultJdbcTemplate()));
+            transforms.add(new SqlTransform(configuration.getSqlTrans(), jdbcContext));
         }
         return new ChainTransform(transforms);
     }

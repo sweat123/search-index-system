@@ -13,11 +13,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.laomei.sis.JdbcContext.DEFAULT_JDBC_TEMPLATE;
 
 /**
  * @author laomei on 2018/12/4 16:25
@@ -38,9 +41,8 @@ public class SqlExecutor implements Executor {
     @Override
     public List<SisRecord> execute(final List<SisRecord> sisRecords) {
         List<SisRecord> records = new ArrayList<>(sisRecords.size());
-        JdbcTemplate jdbcTemplate = jdbcContext.getDefaultJdbcTemplate();
         for (SisRecord record : sisRecords) {
-            SisRecord sisRecord = execute(record, jdbcTemplate);
+            SisRecord sisRecord = execute(record);
             if (sisRecord != null) {
                 records.add(sisRecord);
             }
@@ -52,11 +54,16 @@ public class SqlExecutor implements Executor {
     public void close() {
     }
 
-    private SisRecord execute(SisRecord sisRecord, JdbcTemplate jdbcTemplate) {
+    private SisRecord execute(SisRecord sisRecord) {
         for (ExecutorConfiguration configuration : configurations.getExecutorConfigurations()) {
             String sql = configuration.getSql();
             String name = configuration.getName();
             boolean required = configuration.isRequired();
+            String alias = configuration.getDsAlias();
+            if (StringUtils.isEmpty(alias)) {
+                alias = DEFAULT_JDBC_TEMPLATE;
+            }
+            JdbcTemplate jdbcTemplate = jdbcContext.getJdbcTemplateByAlias(alias);
             try {
                 Map<String, Object> sqlResult = executeSql(sisRecord.getContext(), sql, required, jdbcTemplate);
                 if (null == sqlResult) {

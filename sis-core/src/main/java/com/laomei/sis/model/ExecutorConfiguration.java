@@ -5,9 +5,11 @@ package com.laomei.sis.model;
  */
 public class ExecutorConfiguration {
 
-    private String sql;
+    private String  sql;
 
-    private String name;
+    private String  name;
+
+    private String  dsAlias;
 
     private boolean required = false;
 
@@ -33,5 +35,23 @@ public class ExecutorConfiguration {
 
     public void setRequired(final boolean required) {
         this.required = required;
+    }
+
+    public String getDsAlias() {
+        return dsAlias;
+    }
+
+    public void setDsAlias(final String dsAlias) {
+        this.dsAlias = dsAlias;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                " sql: " + sql + ", " +
+                " name: " + name + ", " +
+                " dsAlias: " + dsAlias + ", " +
+                " required: " + required +
+                "}";
     }
 }

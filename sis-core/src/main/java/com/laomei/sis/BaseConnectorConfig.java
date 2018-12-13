@@ -41,6 +41,15 @@ public class BaseConnectorConfig extends AbstractConfig {
     private static final String DEFAULT_MYSQL_PASSWORD_DISPLAY =
             "Mysql password; Default mysql datasource will be used in sis";
 
+    // support register multiple mysql dataSource; We can use these dataSource when executing sql that
+    // get data from different db instance;
+    public static final String MYSQL_DATASOURCE_REGISTER = "sis.mysql.dataSource.register";
+    private static final String MYSQL_DATASOURCE_REGISTER_DOC = "support register multiple mysql dataSource; " +
+            "We can use these dataSource when executing sql that will get data from different db instance";
+    private static final String MYSQL_DATASOURCE_REGISTER_DISPLAY = "support register multiple mysql dataSource; " +
+            "We can use these dataSource when executing sql that will get data from different db instance";
+
+
     //group
     private static final String SOURCE_GROUP = "Source";
     private static final String EXECUTOR_GROUP = "Executor";
@@ -61,7 +70,10 @@ public class BaseConnectorConfig extends AbstractConfig {
                     MYSQL_GROUP, 2, ConfigDef.Width.LONG, DEFAULT_MYSQL_USERNAME_DISPLAY)
             .define(DEFAULT_MYSQL_PASSWORD, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
                     ConfigDef.Importance.HIGH, DEFAULT_MYSQL_PASSWORD_DOC,
-                    MYSQL_GROUP, 3, ConfigDef.Width.LONG, DEFAULT_MYSQL_PASSWORD_DISPLAY);
+                    MYSQL_GROUP, 3, ConfigDef.Width.LONG, DEFAULT_MYSQL_PASSWORD_DISPLAY)
+            .define(MYSQL_DATASOURCE_REGISTER, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
+                    ConfigDef.Importance.LOW, MYSQL_DATASOURCE_REGISTER_DOC,
+                    MYSQL_GROUP, 4, ConfigDef.Width.LONG, MYSQL_DATASOURCE_REGISTER_DISPLAY);
 
     public final String sourceConfigurations;
 
@@ -73,6 +85,8 @@ public class BaseConnectorConfig extends AbstractConfig {
 
     public final String defaultMysqlPassword;
 
+    public final String mysqlDataSourceRegister;
+
     public BaseConnectorConfig(ConfigDef configDef, Map<?, ?> props) {
         super(configDef, props);
         sourceConfigurations = getString(SOURCE_CONFIGURATIONS);
@@ -80,5 +94,6 @@ public class BaseConnectorConfig extends AbstractConfig {
         defaultMysqlUrl = getString(DEFAULT_MYSQL_URL);
         defaultMysqlUsername = getString(DEFAULT_MYSQL_USERNAME);
         defaultMysqlPassword = getString(DEFAULT_MYSQL_PASSWORD);
+        mysqlDataSourceRegister = getString(MYSQL_DATASOURCE_REGISTER);
     }
 }
