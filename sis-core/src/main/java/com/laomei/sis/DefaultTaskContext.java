@@ -56,6 +56,9 @@ public abstract class DefaultTaskContext extends AbstractTaskContext {
             throw new IllegalStateException("source configuration can not be null");
         }
         SourceConfigurations configurations = JsonUtil.parse(sourceConfigurations, SourceConfigurations.class);
+        if (configurations == null) {
+            throw new IllegalStateException("illegal source configuration");
+        }
         configurations.getSourceConfigurations().forEach(configuration -> {
             String topic = configuration.getTopic();
             ChainTransform chainTransform = getChainTransform(configuration);
