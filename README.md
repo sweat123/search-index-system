@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/sweat123/search-index-system.svg?branch=master)](https://travis-ci.org/sweat123/search-index-system.svg?branch=master)
+
+
 # index system base on kafka connect
 
 ## 使用前必看
