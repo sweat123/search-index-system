@@ -10,6 +10,10 @@ import java.util.Map;
  */
 public class BaseConnectorConfig extends AbstractConfig {
 
+    public static final String CONNECTOR_NAME = "sis.name";
+    private static final String CONNECTOR_NAME_DOC = "sis task name";
+    private static final String CONNECTOR_NAME_DISPLAY = "sis task name";
+
     public static final String  SOURCE_CONFIGURATIONS = "sis.source.configuration";
     private static final String SOURCE_CONFIGURATIONS_DOC =
             "A json represent sis source configuration including record filter and transform";
@@ -51,11 +55,15 @@ public class BaseConnectorConfig extends AbstractConfig {
 
 
     //group
+    private static final String CONNECTOR = "Connector";
     private static final String SOURCE_GROUP = "Source";
     private static final String EXECUTOR_GROUP = "Executor";
     private static final String MYSQL_GROUP = "Mysql";
 
     protected static final ConfigDef CONFIG_DEF = new ConfigDef()
+            .define(CONNECTOR_NAME, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
+                    ConfigDef.Importance.HIGH, CONNECTOR_NAME_DOC,
+                    CONNECTOR, 1, ConfigDef.Width.LONG, CONNECTOR_NAME_DISPLAY)
             .define(SOURCE_CONFIGURATIONS, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
                     ConfigDef.Importance.HIGH, SOURCE_CONFIGURATIONS_DOC,
                     SOURCE_GROUP, 1, ConfigDef.Width.LONG, SOURCE_CONFIGURATIONS_DISPLAY)
