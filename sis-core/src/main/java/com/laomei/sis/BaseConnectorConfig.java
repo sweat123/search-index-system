@@ -79,7 +79,7 @@ public class BaseConnectorConfig extends AbstractConfig {
             .define(DEFAULT_MYSQL_PASSWORD, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
                     ConfigDef.Importance.HIGH, DEFAULT_MYSQL_PASSWORD_DOC,
                     MYSQL_GROUP, 3, ConfigDef.Width.LONG, DEFAULT_MYSQL_PASSWORD_DISPLAY)
-            .define(MYSQL_DATASOURCE_REGISTER, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
+            .define(MYSQL_DATASOURCE_REGISTER, ConfigDef.Type.STRING, null,
                     ConfigDef.Importance.LOW, MYSQL_DATASOURCE_REGISTER_DOC,
                     MYSQL_GROUP, 4, ConfigDef.Width.LONG, MYSQL_DATASOURCE_REGISTER_DISPLAY);
 

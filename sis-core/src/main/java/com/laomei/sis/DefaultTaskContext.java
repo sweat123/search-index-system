@@ -5,6 +5,7 @@ import com.laomei.sis.executor.NoopExecutor;
 import com.laomei.sis.executor.SqlExecutor;
 import com.laomei.sis.model.DataSourceConfiguration;
 import com.laomei.sis.model.DataSourceConfigurations;
+import com.laomei.sis.model.ExecutorConfiguration;
 import com.laomei.sis.model.ExecutorConfigurations;
 import com.laomei.sis.model.Fields;
 import com.laomei.sis.model.SourceConfiguration;
@@ -15,6 +16,7 @@ import com.laomei.sis.transform.FilterTransform;
 import com.laomei.sis.transform.PlaceholderTransform;
 import com.laomei.sis.transform.RecordTransform;
 import com.laomei.sis.transform.SqlTransform;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -50,6 +52,9 @@ public abstract class DefaultTaskContext extends AbstractTaskContext {
             initJdbcContext();
         }
         String sourceConfigurations = config.sourceConfigurations;
+        if (StringUtils.isEmpty(sourceConfigurations)) {
+            throw new IllegalStateException("source configuration can not be null");
+        }
         SourceConfigurations configurations = JsonUtil.parse(sourceConfigurations, SourceConfigurations.class);
         configurations.getSourceConfigurations().forEach(configuration -> {
             String topic = configuration.getTopic();
@@ -64,8 +69,17 @@ public abstract class DefaultTaskContext extends AbstractTaskContext {
             initJdbcContext();
         }
         String executorConfigurations = config.executorConfigurations;
+        if (StringUtils.isEmpty(executorConfigurations)) {
+            executor = new NoopExecutor();
+            return;
+        }
         ExecutorConfigurations configurations = JsonUtil.parse(executorConfigurations, ExecutorConfigurations.class);
-        if (configurations.getExecutorConfigurations().isEmpty()) {
+        if (configurations == null) {
+            executor = new NoopExecutor();
+            return;
+        }
+        List<ExecutorConfiguration> configurationList = configurations.getExecutorConfigurations();
+        if (CollectionUtils.isEmpty(configurationList)) {
             executor = new NoopExecutor();
         } else {
             executor = new SqlExecutor(configurations, jdbcContext);
@@ -88,7 +102,9 @@ public abstract class DefaultTaskContext extends AbstractTaskContext {
         String url = config.defaultMysqlUrl;
         String username = config.defaultMysqlUsername;
         String password = config.defaultMysqlPassword;
-        registerDataSource(url, username, password, DEFAULT_JDBC_TEMPLATE);
+        if (StringUtils.hasLength(url)) {
+            registerDataSource(url, username, password, DEFAULT_JDBC_TEMPLATE);
+        }
 
         //register other dataSource
         String registerDataSourceConfigure = config.mysqlDataSourceRegister;
@@ -102,7 +118,9 @@ public abstract class DefaultTaskContext extends AbstractTaskContext {
                 String externalUsername = dataSourceConfiguration.getUsername();
                 String externalPassword = dataSourceConfiguration.getPassword();
                 String alias = dataSourceConfiguration.getAlias();
-                registerDataSource(externalUrl, externalUsername, externalPassword, alias);
+                if (StringUtils.hasLength(externalUrl)) {
+                    registerDataSource(externalUrl, externalUsername, externalPassword, alias);
+                }
             }
         }
     }
