@@ -23,8 +23,10 @@
         <version.log4j>2.8.2</version.log4j>
         <version.junit>4.12</version.junit>
         <version.fest>1.4</version.fest>
-
-        <version.avro>1.8.2</version.avro>
+        <version.mysql.driver>5.1.47</version.mysql.driver>
+        <version.spring.jdbc>4.3.21.RELEASE</version.spring.jdbc>
+        <version.hikaricp>3.1.0</version.hikaricp>
+        <version.joda>2.9.9</version.joda>
         <version.fastjson>1.2.54</version.fastjson>
     </properties>
 
@@ -34,6 +36,12 @@
                 <groupId>org.apache.kafka</groupId>
                 <artifactId>connect-api</artifactId>
                 <version>${version.kafka}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.laomei.connect</groupId>
+                <artifactId>sis-core</artifactId>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
@@ -56,21 +64,18 @@
                 <artifactId>log4j-core</artifactId>
                 <version>${version.log4j}</version>
             </dependency>
+
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${version.junit}</version>
             </dependency>
             <dependency>
-                <groupId>com.laomei.connect</groupId>
-                <artifactId>sis-core</artifactId>
-                <version>${project.version}</version>
+                <groupId>org.easytesting</groupId>
+                <artifactId>fest-assert</artifactId>
+                <version>${version.fest}</version>
             </dependency>
-            <dependency>
-                <groupId>org.apache.avro</groupId>
-                <artifactId>avro</artifactId>
-                <version>${version.avro}</version>
-            </dependency>
+
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
@@ -79,22 +84,22 @@
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>5.1.47</version>
+                <version>${version.mysql.driver}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-jdbc</artifactId>
-                <version>4.3.21.RELEASE</version>
+                <version>${version.spring.jdbc}</version>
             </dependency>
             <dependency>
                 <groupId>com.zaxxer</groupId>
                 <artifactId>HikariCP</artifactId>
-                <version>3.1.0</version>
+                <version>${version.hikaricp}</version>
             </dependency>
             <dependency>
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
-                <version>2.9.9</version>
+                <version>${version.joda}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
