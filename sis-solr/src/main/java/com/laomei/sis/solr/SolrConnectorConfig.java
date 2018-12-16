@@ -111,7 +111,7 @@ public class SolrConnectorConfig extends BaseConnectorConfig {
 
     public final int solrCloudConnectRequestTimeout;
 
-    public SolrConnectorConfig(Map<?, ?> props) {
+    public SolrConnectorConfig(Map<String, ?> props) {
         super(CONFIG_DEF, props);
         solrCloudZkHost = getString(SOLR_CLOUD_ZK_HOST);
         solrCloudUsername = getString(SOLR_CLOUD_USERNAME);

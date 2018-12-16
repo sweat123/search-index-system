@@ -60,7 +60,7 @@ public class BaseConnectorConfig extends AbstractConfig {
     private static final String EXECUTOR_GROUP = "Executor";
     private static final String MYSQL_GROUP = "Mysql";
 
-    protected static final ConfigDef CONFIG_DEF = new ConfigDef()
+    public static final ConfigDef CONFIG_DEF = new ConfigDef()
             .define(CONNECTOR_NAME, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
                     ConfigDef.Importance.HIGH, CONNECTOR_NAME_DOC,
                     CONNECTOR, 1, ConfigDef.Width.LONG, CONNECTOR_NAME_DISPLAY)
@@ -95,13 +95,24 @@ public class BaseConnectorConfig extends AbstractConfig {
 
     public final String mysqlDataSourceRegister;
 
-    public BaseConnectorConfig(ConfigDef configDef, Map<?, ?> props) {
+    private final Map<String, ?> originalConfigs;
+
+    public BaseConnectorConfig(ConfigDef configDef, Map<String, ?> props) {
         super(configDef, props);
+        this.originalConfigs = props;
         sourceConfigurations = getString(SOURCE_CONFIGURATIONS);
         executorConfigurations = getString(EXECUTOR_CONFIGURATIONS);
         defaultMysqlUrl = getString(DEFAULT_MYSQL_URL);
         defaultMysqlUsername = getString(DEFAULT_MYSQL_USERNAME);
         defaultMysqlPassword = getString(DEFAULT_MYSQL_PASSWORD);
         mysqlDataSourceRegister = getString(MYSQL_DATASOURCE_REGISTER);
+    }
+
+    public <T> T getOriginalValue(String key) {
+        return (T) originalConfigs.get(key);
+    }
+
+    public Map<String, ?> getOriginalConfigs() {
+        return originalConfigs;
     }
 }
