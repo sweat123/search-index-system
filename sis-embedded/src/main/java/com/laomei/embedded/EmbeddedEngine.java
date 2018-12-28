@@ -1,6 +1,7 @@
 package com.laomei.embedded;
 
 import com.laomei.sis.BaseConnectorConfig;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.connect.connector.ConnectorContext;
 import org.apache.kafka.connect.connector.Task;
@@ -15,6 +16,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.laomei.embedded.EmbeddedEngineStarter.SOURCE_KAFKA_AUTO_OFFSET_RESET;
+import static com.laomei.embedded.EmbeddedEngineStarter.SOURCE_KAFKA_BOOTSTRAP_SERVERS;
+import static com.laomei.embedded.EmbeddedEngineStarter.SOURCE_KAFKA_GROUP_ID;
 
 /**
  * @author laomei on 2018/12/16 21:02
@@ -82,9 +87,19 @@ public class EmbeddedEngine {
          * 1. we can get kafka records from file; The format of record must is the same as record created by debezium
          * 2. put records to sink storage
          */
+        final KafkaConsumer<byte[], byte[]> sourceKafkaConsumer = createSourceKafkaConsumer();
     }
 
     public void close() {
+    }
+
+    private KafkaConsumer<byte[], byte[]> createSourceKafkaConsumer() {
+        final Map<String, Object> props = new HashMap<>();
+        final Map<String, ?> originConfigs = config.getOriginalConfigs();
+        props.put(SOURCE_KAFKA_BOOTSTRAP_SERVERS, originConfigs.get(SOURCE_KAFKA_BOOTSTRAP_SERVERS));
+        props.put(SOURCE_KAFKA_GROUP_ID, originConfigs.get(SOURCE_KAFKA_GROUP_ID));
+        props.put(SOURCE_KAFKA_AUTO_OFFSET_RESET, originConfigs.get(SOURCE_KAFKA_AUTO_OFFSET_RESET));
+        //todo
     }
 
     private Map<String, String> convert(Map<String, ?> config) {
