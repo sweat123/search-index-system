@@ -1,9 +1,3 @@
-/*
- * DefaultEngineBuilder.java
- * Copyright 2018 Qunhe Tech, all rights reserved.
- * Qunhe PROPRIETARY/CONFIDENTIAL, any form of usage is subject to approval.
- */
-
 package com.laomei.embedded;
 
 import com.laomei.sis.BaseConnectorConfig;
@@ -12,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author luobo.hwz on 2018/12/28 19:37
+ * @author laomei on 2018/12/28 19:37
  */
 public class DefaultEngineBuilder implements EngineBuilder {
 
