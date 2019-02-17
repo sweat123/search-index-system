@@ -9,4 +9,4 @@ jdk:
   - oraclejdk8
 
 script:
-  - "mvn clean install"
+  - mvn clean install -DskipIT=false
