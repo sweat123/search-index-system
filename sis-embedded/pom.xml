@@ -106,7 +106,12 @@
                                 <namingStrategy>alias</namingStrategy>
                                 <wait>
                                     <log>Zk init process done.</log>
-                                    <time>300000</time>
+                                    <time>30000</time>
+                                    <tcp>
+                                        <ports>
+                                            <port>2181</port>
+                                        </ports>
+                                    </tcp>
                                 </wait>
                                 <log>
                                     <prefix>[Zookeeper]</prefix>
@@ -127,7 +132,12 @@
                                 <namingStrategy>alias</namingStrategy>
                                 <wait>
                                     <log>Kafka init process done.</log>
-                                    <time>300000</time>
+                                    <time>30000</time>
+                                    <tcp>
+                                        <ports>
+                                            <port>9092</port>
+                                        </ports>
+                                    </tcp>
                                 </wait>
                                 <log>
                                     <prefix>[kafka]</prefix>
