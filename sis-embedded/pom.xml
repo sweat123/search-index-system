@@ -10,6 +10,19 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <repositories>
+        <repository>
+            <id>confluent</id>
+            <url>http://packages.confluent.io/maven/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <artifactId>sis-embedded</artifactId>
 
     <properties>
@@ -56,6 +69,11 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-avro-serializer</artifactId>
+            <version>4.0.0</version>
         </dependency>
     </dependencies>
 
@@ -150,6 +168,8 @@
                                 <env>
                                     <KAFKA_ADVERTISED_HOST_NAME>127.0.0.1</KAFKA_ADVERTISED_HOST_NAME>
                                     <ZOOKEEPER_CONNECT>embedded-test-zk:2181</ZOOKEEPER_CONNECT>
+                                    <KAFKA_NUM_PARTITIONS>1</KAFKA_NUM_PARTITIONS>
+                                    <KAFKA_DEFAULT_REPLICATION_FACTOR>1</KAFKA_DEFAULT_REPLICATION_FACTOR>
                                 </env>
                                 <ports>
                                     <port>9092:9092</port>
@@ -157,7 +177,7 @@
                             </run>
                         </image>
                         <image>
-                            <alias>embedded-test-schema-registry</alias>
+                            <alias>embedded-test-sr</alias>
                             <name>confluentinc/cp-schema-registry:4.0.0</name>
                             <run>
                                 <namingStrategy>alias</namingStrategy>
@@ -166,7 +186,7 @@
                                     <time>30000</time>
                                     <tcp>
                                         <ports>
-                                            <port>80</port>
+                                            <port>8082</port>
                                         </ports>
                                     </tcp>
                                 </wait>
@@ -180,8 +200,50 @@
                                 </log>
                                 <env>
                                     <SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL>embedded-test-zk:2181</SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL>
-                                    <SCHEMA_REGISTRY_LISTENERS>http://0.0.0.0:80</SCHEMA_REGISTRY_LISTENERS>
+                                    <SCHEMA_REGISTRY_LISTENERS>http://0.0.0.0:8082</SCHEMA_REGISTRY_LISTENERS>
                                     <SCHEMA_REGISTRY_HOST_NAME>127.0.0.1</SCHEMA_REGISTRY_HOST_NAME>
+                                </env>
+                                <ports>
+                                    <port>8082:8082</port>
+                                </ports>
+                            </run>
+                        </image>
+                        <image>
+                            <alias>embedded-test-dbz</alias>
+                            <name>debezium/connect:0.7</name>
+                            <run>
+                                <namingStrategy>alias</namingStrategy>
+                                <wait>
+                                    <log>Dbz init process done.</log>
+                                    <time>30000</time>
+                                    <tcp>
+                                        <ports>
+                                            <port>80</port>
+                                        </ports>
+                                    </tcp>
+                                </wait>
+                                <links>
+                                    <link>embedded-test-kafka:embedded-test-kafka</link>
+                                    <link>embedded-test-sr:embedded-test-sr</link>
+                                </links>
+                                <log>
+                                    <prefix>[dbz]</prefix>
+                                    <enabled>true</enabled>
+                                    <color>yellow</color>
+                                </log>
+                                <env>
+                                    <GROUP_ID>1</GROUP_ID>
+                                    <KEY_CONVERTER>io.confluent.connect.avro.AvroConverter</KEY_CONVERTER>
+                                    <VALUE_CONVERTER>io.confluent.connect.avro.AvroConverter</VALUE_CONVERTER>
+                                    <CONFIG_STORAGE_TOPIC>connect-configs</CONFIG_STORAGE_TOPIC>
+                                    <OFFSET_STORAGE_TOPIC>connect-offset</OFFSET_STORAGE_TOPIC>
+                                    <BOOTSTRAP_SERVERS>embedded-test-kafka:9092</BOOTSTRAP_SERVERS>
+                                    <CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL>embedded-test-sr:8082</CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL>
+                                    <CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL>embedded-test-sr:8082</CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL>
+                                    <HOST_NAME>0.0.0.0</HOST_NAME>
+                                    <CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR>1</CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR>
+                                    <CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR>1</CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR>
+                                    <CONNECT_STATUS_STORAGE_REPLICATION_FACTOR>1</CONNECT_STATUS_STORAGE_REPLICATION_FACTOR>
                                 </env>
                                 <ports>
                                     <port>80:80</port>
