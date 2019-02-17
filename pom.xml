@@ -9,10 +9,23 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
+    <repositories>
+        <repository>
+            <id>confluent</id>
+            <url>http://packages.confluent.io/maven/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <modules>
         <module>sis-core</module>
         <module>sis-solr</module>
-        <module>sis-embedded</module>
+        <module>sis-integration</module>
     </modules>
 
     <properties>
@@ -30,6 +43,7 @@
         <version.hikaricp>3.1.0</version.hikaricp>
         <version.joda>2.9.9</version.joda>
         <version.fastjson>1.2.54</version.fastjson>
+        <version.avro>1.8.2</version.avro>
     </properties>
 
     <dependencyManagement>
@@ -113,6 +127,16 @@
                 <artifactId>joda-time</artifactId>
                 <version>${version.joda}</version>
             </dependency>
+            <dependency>
+                <groupId>io.confluent</groupId>
+                <artifactId>kafka-avro-serializer</artifactId>
+                <version>4.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>3.11.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -145,7 +169,7 @@
                 <plugin>
                     <groupId>io.fabric8</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
-                    <version>0.26.0</version>
+                    <version>0.28.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.flywaydb</groupId>
