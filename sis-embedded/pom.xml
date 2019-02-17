@@ -110,7 +110,7 @@
                                 </wait>
                                 <log>
                                     <prefix>[Zookeeper]</prefix>
-                                    <enabled>true</enabled>
+                                    <enabled>false</enabled>
                                     <color>yellow</color>
                                 </log>
                                 <ports>
