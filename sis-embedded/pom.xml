@@ -12,6 +12,14 @@
 
     <artifactId>sis-embedded</artifactId>
 
+    <properties>
+        <skipIT>true</skipIT>
+        <db.schema>sis</db.schema>
+        <test-database.user>sis-user</test-database.user>
+        <test-database.password>sis-password</test-database.password>
+        <test-database.port>13306</test-database.port>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.laomei.connect</groupId>
@@ -44,4 +52,93 @@
             <version>${version.log4j}</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <configuration>
+                    <skip>${skipIT}</skip>
+                    <logDate>default</logDate>
+                    <verbose>true</verbose>
+                    <watchInterval>500</watchInterval>
+                    <imagePullPolicy>IfNotPresent</imagePullPolicy>
+                    <images>
+                        <image>
+                            <alias>embedded-test</alias>
+                            <name>debezium/mysql-server-test-database</name>
+                            <run>
+                                <namingStrategy>alias</namingStrategy>
+                                <wait>
+                                    <log>MySQL init process done. Ready for start up.</log>
+                                    <time>30000</time>
+                                </wait>
+                                <env>
+                                    <MYSQL_ROOT_PASSWORD>sis-embedded</MYSQL_ROOT_PASSWORD>
+                                    <MYSQL_DATABASE>${db.schema}</MYSQL_DATABASE>
+                                    <MYSQL_USER>${test-database.user}</MYSQL_USER>
+                                    <MYSQL_PASSWORD>${test-database.password}</MYSQL_PASSWORD>
+                                </env>
+                                <ports>
+                                    <port>${test-database.port}:3306</port>
+                                </ports>
+                                <log>
+                                    <prefix>mysql</prefix>
+                                    <enabled>true</enabled>
+                                    <color>yellow</color>
+                                </log>
+                                <cmd>
+                                    <shell>--character-set-server=utf8 --collation-server=utf8_general_ci</shell>
+                                </cmd>
+                            </run>
+                        </image>
+                    </images>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>start</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>migrate</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>migrate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skip>${skipIT}</skip>
+                    <url>jdbc:mysql://localhost:${test-database.port}?useSSL=false</url>
+                    <user>${test-database.user}</user>
+                    <password>${test-database.password}</password>
+                    <schemas>
+                        <schema>${db.schema}</schema>
+                    </schemas>
+                    <locations>
+                        <location>filesystem:src/test/resources/db/migration</location>
+                        <location>classpath:db/migration</location>
+                    </locations>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

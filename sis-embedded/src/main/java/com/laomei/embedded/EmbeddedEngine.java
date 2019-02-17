@@ -104,6 +104,9 @@ public class EmbeddedEngine {
             Converter keyConverter = buildConverter(true);
             Converter valueConverter = buildConverter(false);
             sourceKafkaConsumer.subscribe(topics);
+
+            logger.info("sis task '{}' started", sisTaskName);
+
             while (running.get()) {
                 ConsumerRecords<byte[], byte[]> msgs = sourceKafkaConsumer.poll(500);
                 if (msgs.isEmpty()) {
@@ -136,6 +139,7 @@ public class EmbeddedEngine {
             task.stop();
             logger.info("stop connector");
             connector.stop();
+            logger.info("sis task '{}' stopped", sisTaskName);
         }
     }
 
