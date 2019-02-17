@@ -115,6 +115,8 @@
                                 </log>
                                 <ports>
                                     <port>2181:2181</port>
+                                    <port>2888:2888</port>
+                                    <port>3888:3888</port>
                                 </ports>
                             </run>
                         </image>
@@ -132,9 +134,12 @@
                                     <enabled>true</enabled>
                                     <color>yellow</color>
                                 </log>
+                                <links>
+                                    <link>embedded-test-zk:embedded-test-zk</link>
+                                </links>
                                 <env>
                                     <KAFKA_ADVERTISED_HOST_NAME>127.0.0.1</KAFKA_ADVERTISED_HOST_NAME>
-                                    <ZOOKEEPER_CONNECT>127.0.0.1:2181</ZOOKEEPER_CONNECT>
+                                    <ZOOKEEPER_CONNECT>embedded-test-zk:2181</ZOOKEEPER_CONNECT>
                                 </env>
                                 <ports>
                                     <port>9092:9092</port>
@@ -150,13 +155,16 @@
                                     <log>Schema-registry init process done.</log>
                                     <time>30000</time>
                                 </wait>
+                                <links>
+                                    <link>embedded-test-zk:embedded-test-zk</link>
+                                </links>
                                 <log>
                                     <prefix>[schema registry]</prefix>
                                     <enabled>true</enabled>
                                     <color>yellow</color>
                                 </log>
                                 <env>
-                                    <SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL>127.0.0.1:2181</SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL>
+                                    <SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL>embedded-test-zk:2181</SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL>
                                     <SCHEMA_REGISTRY_LISTENERS>http://0.0.0.0:80</SCHEMA_REGISTRY_LISTENERS>
                                 </env>
                                 <ports>
