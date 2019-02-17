@@ -110,7 +110,7 @@
                                 </wait>
                                 <log>
                                     <prefix>[Zookeeper]</prefix>
-                                    <enabled>false</enabled>
+                                    <enabled>true</enabled>
                                     <color>yellow</color>
                                 </log>
                                 <ports>
@@ -131,7 +131,7 @@
                                 </wait>
                                 <log>
                                     <prefix>[kafka]</prefix>
-                                    <enabled>enable</enabled>
+                                    <enabled>true</enabled>
                                     <color>yellow</color>
                                 </log>
                                 <links>
