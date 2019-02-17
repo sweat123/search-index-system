@@ -5,7 +5,7 @@ CREATE TABLE user_desc (
   weight FLOAT
 );
 
-INSERT INTO user_desc (`name`, address, weight)
+INSERT INTO user_desc (name, address, weight)
 VALUES (
   "user1", "address1", 50.0
   "user2", "address2", 51.2
