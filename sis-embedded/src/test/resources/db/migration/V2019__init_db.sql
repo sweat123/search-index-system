@@ -6,8 +6,6 @@ CREATE TABLE user_desc (
 );
 
 INSERT INTO user_desc (name, address, weight)
-VALUES (
-  "user1", "address1", 50.0,
-  "user2", "address2", 51.2,
-  "user3", "address3", 55.0
-);
+VALUES ("user1", "address1", 50.0),
+	     ("user2", "address2", 51.2),
+	     ("user3", "address3", 55.0);
