@@ -14,6 +14,7 @@
 
     <properties>
         <skipIT>true</skipIT>
+        <skipMysqlSetup>true</skipMysqlSetup>
         <db.schema>sis</db.schema>
         <test-database.user>sis-user</test-database.user>
         <test-database.password>sis-password</test-database.password>
@@ -137,6 +138,27 @@
                         <location>filesystem:src/test/resources/db/migration</location>
                         <location>classpath:db/migration</location>
                     </locations>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>sleep-for-a-while</id>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <target>
+                                <sleep seconds="10"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skip>${skipMysqlSetup}</skip>
                 </configuration>
             </plugin>
         </plugins>
