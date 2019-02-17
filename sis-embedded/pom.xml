@@ -101,7 +101,7 @@
                         </image>
                         <image>
                             <alias>embedded-test-zk</alias>
-                            <name>debezium/zookeeper:0.7</name>
+                            <name>zookeeper:3.4</name>
                             <run>
                                 <namingStrategy>alias</namingStrategy>
                                 <wait>
