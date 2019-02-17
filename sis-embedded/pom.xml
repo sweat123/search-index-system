@@ -164,6 +164,11 @@
                                 <wait>
                                     <log>Schema-registry init process done.</log>
                                     <time>30000</time>
+                                    <tcp>
+                                        <ports>
+                                            <port>80</port>
+                                        </ports>
+                                    </tcp>
                                 </wait>
                                 <links>
                                     <link>embedded-test-zk:embedded-test-zk</link>
@@ -176,6 +181,7 @@
                                 <env>
                                     <SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL>embedded-test-zk:2181</SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL>
                                     <SCHEMA_REGISTRY_LISTENERS>http://0.0.0.0:80</SCHEMA_REGISTRY_LISTENERS>
+                                    <SCHEMA_REGISTRY_HOST_NAME>127.0.0.1</SCHEMA_REGISTRY_HOST_NAME>
                                 </env>
                                 <ports>
                                     <port>80:80</port>
