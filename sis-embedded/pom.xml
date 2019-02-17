@@ -106,7 +106,7 @@
                                 <namingStrategy>alias</namingStrategy>
                                 <wait>
                                     <log>Zk init process done.</log>
-                                    <time>50000</time>
+                                    <time>60000</time>
                                 </wait>
                                 <log>
                                     <prefix>[Zookeeper]</prefix>
