@@ -106,7 +106,7 @@
                                 <namingStrategy>alias</namingStrategy>
                                 <wait>
                                     <log>Zk init process done.</log>
-                                    <time>60000</time>
+                                    <time>300000</time>
                                 </wait>
                                 <log>
                                     <prefix>[Zookeeper]</prefix>
@@ -127,11 +127,11 @@
                                 <namingStrategy>alias</namingStrategy>
                                 <wait>
                                     <log>Kafka init process done.</log>
-                                    <time>50000</time>
+                                    <time>300000</time>
                                 </wait>
                                 <log>
                                     <prefix>[kafka]</prefix>
-                                    <enabled>true</enabled>
+                                    <enabled>enable</enabled>
                                     <color>yellow</color>
                                 </log>
                                 <links>
