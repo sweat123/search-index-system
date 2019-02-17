@@ -72,7 +72,7 @@
                     <imagePullPolicy>IfNotPresent</imagePullPolicy>
                     <images>
                         <image>
-                            <alias>embedded-test</alias>
+                            <alias>embedded-test-mysql</alias>
                             <name>mysql:5.6</name>
                             <run>
                                 <namingStrategy>alias</namingStrategy>
@@ -97,6 +97,48 @@
                                 <cmd>
                                     <shell>--character-set-server=utf8 --collation-server=utf8_general_ci</shell>
                                 </cmd>
+                            </run>
+                        </image>
+                        <image>
+                            <alias>embedded-test-zk</alias>
+                            <name>debezium/zookeeper:0.7</name>
+                            <run>
+                                <namingStrategy>alias</namingStrategy>
+                                <wait>
+                                    <log>Zk init process done.</log>
+                                    <time>20000</time>
+                                </wait>
+                                <log>
+                                    <prefix>zk</prefix>
+                                    <enabled>true</enabled>
+                                    <color>yellow</color>
+                                </log>
+                                <ports>
+                                    <port>2181:2181</port>
+                                </ports>
+                            </run>
+                        </image>
+                        <image>
+                            <alias>embedded-test-kafka</alias>
+                            <name>debezium/kafka:0.7</name>
+                            <run>
+                                <namingStrategy>alias</namingStrategy>
+                                <wait>
+                                    <log>Kafka init process done.</log>
+                                    <time>30000</time>
+                                </wait>
+                                <log>
+                                    <prefix>kafka</prefix>
+                                    <enabled>true</enabled>
+                                    <color>yellow</color>
+                                </log>
+                                <env>
+                                    <KAFKA_ADVERTISED_HOST_NAME>127.0.0.1</KAFKA_ADVERTISED_HOST_NAME>
+                                    <ZOOKEEPER_CONNECT>embedded-test-zk:2181</ZOOKEEPER_CONNECT>
+                                </env>
+                                <ports>
+                                    <port>9092:9092</port>
+                                </ports>
                             </run>
                         </image>
                     </images>

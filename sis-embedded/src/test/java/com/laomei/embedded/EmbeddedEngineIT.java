@@ -6,10 +6,14 @@
 
 package com.laomei.embedded;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author luobo.hwz on 2019/2/17 15:22
@@ -30,12 +34,14 @@ public class EmbeddedEngineIT {
 
     @Test
     public void test() {
-        jdbcTemplate.query("SHOW TABLES", rs -> {
+        List<String> tables = jdbcTemplate.query("SHOW TABLES", rs -> {
+            List<String> results = new ArrayList<>();
             while (rs.next()) {
-                Object o = rs.getObject(0);
-                System.out.println("===============> " + o);
+                String o = rs.getString(1);
+                results.add(o);
             }
-            return null;
+            return results;
         });
+        Assert.assertEquals(tables.size(), 2);
     }
 }
