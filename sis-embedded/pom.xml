@@ -67,7 +67,7 @@
                     <images>
                         <image>
                             <alias>embedded-test</alias>
-                            <name>debezium/mysql-server-test-database</name>
+                            <name>mysql:5.6</name>
                             <run>
                                 <namingStrategy>alias</namingStrategy>
                                 <wait>
