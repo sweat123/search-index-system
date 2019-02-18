@@ -218,7 +218,7 @@
                                     <time>30000</time>
                                     <tcp>
                                         <ports>
-                                            <port>80</port>
+                                            <port>8083</port>
                                         </ports>
                                     </tcp>
                                 </wait>
@@ -247,7 +247,7 @@
                                     <CONNECT_STATUS_STORAGE_REPLICATION_FACTOR>1</CONNECT_STATUS_STORAGE_REPLICATION_FACTOR>
                                 </env>
                                 <ports>
-                                    <port>80:80</port>
+                                    <port>8083:8083</port>
                                 </ports>
                             </run>
                         </image>
