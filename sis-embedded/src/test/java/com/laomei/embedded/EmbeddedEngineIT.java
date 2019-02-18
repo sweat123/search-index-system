@@ -15,7 +15,6 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetAddress;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -87,12 +86,12 @@ public class EmbeddedEngineIT {
         if (StringUtils.isEmpty(config)) {
             throw new IllegalStateException("dbz config can not be blank");
         }
-
-        String ip = InetAddress.getLocalHost().getHostAddress();
+        String ip = System.getenv("database.hostname");
+        if (StringUtils.isEmpty(ip)) {
+            ip = System.getProperty("database.hostname");
+        }
         config = String.format(config, ip);
-
         HttpUtil.doPost("http://localhost:8083/connectors", config);
-
         //sleep 5s to make sure dbz task has started;
         TimeUnit.SECONDS.sleep(5);
     }
