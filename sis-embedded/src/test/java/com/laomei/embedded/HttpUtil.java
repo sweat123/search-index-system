@@ -30,6 +30,7 @@ public class HttpUtil {
                 .build();
 
         //exec request
-        CLIENT.newCall(request).execute();
+        Response response = CLIENT.newCall(request).execute();
+        response.close();
     }
 }
