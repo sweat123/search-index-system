@@ -86,7 +86,7 @@ public class EmbeddedEngineIT {
         if (StringUtils.isEmpty(config)) {
             throw new IllegalStateException("dbz config can not be blank");
         }
-        HttpUtil.doPost("localhost:8083/connectors", config);
+        HttpUtil.doPost("http://localhost:8083/connectors", config);
 
         //sleep 5s to make sure dbz task has started;
         TimeUnit.SECONDS.sleep(5);
