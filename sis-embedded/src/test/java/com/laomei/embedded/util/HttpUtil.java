@@ -1,4 +1,4 @@
-package com.laomei.embedded;
+package com.laomei.embedded.util;
 
 import okhttp3.*;
 

@@ -1,5 +1,7 @@
 package com.laomei.embedded;
 
+import com.laomei.embedded.util.HttpUtil;
+import com.laomei.embedded.util.TopicUtil;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.commons.compress.utils.IOUtils;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -81,6 +83,7 @@ public class EmbeddedEngineIT {
     }
 
     private void initDbzTask() throws IOException, InterruptedException {
+        createDbzHistoryTopic();
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         String config = null;
         try (InputStream in = classLoader.getResourceAsStream("dbz/connect.json")) {
@@ -93,5 +96,9 @@ public class EmbeddedEngineIT {
         HttpUtil.doPost("http://localhost:8083/connectors", config);
         //sleep 5s to make sure dbz task has started;
         TimeUnit.SECONDS.sleep(5);
+    }
+
+    private void createDbzHistoryTopic() {
+        TopicUtil.createTopic("127.0.0.1:9092", "dbhistory.inventory", 1,  (short) 1);
     }
 }
