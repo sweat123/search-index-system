@@ -34,9 +34,10 @@ public class EmbeddedEngineIT {
     @Before
     public void init() throws IOException, InterruptedException {
         initDbzTask();
+        String jdbcUrl = System.getProperty("spring.datasource.url");
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:13306/sis?useSSL=false");
+        dataSource.setUrl(jdbcUrl);
         dataSource.setUsername("sis-user");
         dataSource.setPassword("sis-password");
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -99,6 +100,11 @@ public class EmbeddedEngineIT {
     }
 
     private void createDbzHistoryTopic() {
-        TopicUtil.createTopic("embedded-test-kafka:9092", "dbhistory.inventory", 1,  (short) 1);
+        TopicUtil.createTopic("127.0.0.1:9092", "dbhistory.inventory", 1,  (short) 1);
+        info("create dbz history topic " + "dbhistory.inventory" + " succeed.");
+    }
+
+    private void info(String msg) {
+        logger.info("[IT Test] {}", msg);
     }
 }
