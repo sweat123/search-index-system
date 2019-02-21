@@ -99,6 +99,6 @@ public class EmbeddedEngineIT {
     }
 
     private void createDbzHistoryTopic() {
-        TopicUtil.createTopic("127.0.0.1:9092", "dbhistory.inventory", 1,  (short) 1);
+        TopicUtil.createTopic("embedded-test-kafka:9092", "dbhistory.inventory", 1,  (short) 1);
     }
 }

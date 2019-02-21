@@ -10,7 +10,7 @@
     "database.server.id":"184054",
     "database.server.name":"sis",
     "database.whitelist":"sis",
-    "database.history.kafka.bootstrap.servers":"127.0.0.1:9092",
+    "database.history.kafka.bootstrap.servers":"embedded-test-kafka:9092",
     "database.history.kafka.topic":"dbhistory.inventory"
   }
 }
