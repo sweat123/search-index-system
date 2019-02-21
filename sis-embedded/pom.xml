@@ -15,7 +15,7 @@
     <properties>
         <skipIT>true</skipIT>
         <skipMysqlSetup>true</skipMysqlSetup>
-        <db.schema>sis</db.schema>
+        <db.schema>inventory</db.schema>
         <test-database.user>sis-user</test-database.user>
         <test-database.password>sis-password</test-database.password>
         <test-database.port>13306</test-database.port>

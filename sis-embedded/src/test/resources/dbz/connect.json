@@ -9,7 +9,7 @@
     "database.password":"sis-password",
     "database.server.id":"184054",
     "database.server.name":"sis",
-    "database.whitelist":"sis",
+    "database.whitelist":"inventory",
     "database.history.kafka.bootstrap.servers":"embedded-test-kafka:9092",
     "database.history.kafka.topic":"dbhistory.inventory"
   }
