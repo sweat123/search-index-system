@@ -82,7 +82,7 @@
                     <images>
                         <image>
                             <alias>embedded-test-mysql</alias>
-                            <name>mysql:5.6</name>
+                            <name>debezium/example-mysql:0.7</name>
                             <run>
                                 <namingStrategy>alias</namingStrategy>
                                 <wait>
@@ -250,7 +250,6 @@
                         <id>start</id>
                         <phase>pre-integration-test</phase>
                         <goals>
-                            <goal>stop</goal>
                             <goal>start</goal>
                         </goals>
                     </execution>
