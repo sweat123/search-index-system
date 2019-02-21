@@ -216,6 +216,7 @@
                                 <links>
                                     <link>embedded-test-kafka:embedded-test-kafka</link>
                                     <link>embedded-test-sr:embedded-test-sr</link>
+                                    <link>embedded-test-mysql:embedded-test-mysql</link>
                                 </links>
                                 <log>
                                     <prefix>[dbz]</prefix>
@@ -331,7 +332,6 @@
                     <enableAssertions>true</enableAssertions>
                     <systemPropertyVariables>
                         <database.hostname>${docker.host.address}</database.hostname>
-                        <database.port>${test-database.port}</database.port>
                         <spring.datasource.url>jdbc:mysql://${docker.host.address}:${test-database.port}/${db.schema}?useSSL=false</spring.datasource.url>
                         <spring.datasource.username>${test-database.user}</spring.datasource.username>
                         <spring.datasource.password>${test-database.password}</spring.datasource.password>

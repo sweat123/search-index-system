@@ -3,8 +3,8 @@
   "config":{
     "connector.class":"io.debezium.connector.mysql.MySqlConnector",
     "tasks.max":"1",
-    "database.hostname":"%s",
-    "database.port":"%s",
+    "database.hostname":"embedded-test-mysql",
+    "database.port":"13306",
     "database.user":"sis-user",
     "database.password":"sis-password",
     "database.server.id":"184054",

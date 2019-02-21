@@ -90,10 +90,6 @@ public class EmbeddedEngineIT {
         if (StringUtils.isEmpty(config)) {
             throw new IllegalStateException("dbz config can not be blank");
         }
-        String ip = System.getProperty("database.hostname");
-        String port = System.getProperty("database.port");
-        logger.info("=============> database host name: {}, port: {}", ip, port);
-        config = String.format(config, ip, port);
         HttpUtil.doPost("http://localhost:8083/connectors", config);
         //sleep 5s to make sure dbz task has started;
         TimeUnit.SECONDS.sleep(5);
