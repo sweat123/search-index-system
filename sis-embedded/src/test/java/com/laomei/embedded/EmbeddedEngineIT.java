@@ -9,6 +9,8 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.util.StringUtils;
@@ -22,6 +24,8 @@ import java.util.concurrent.TimeUnit;
  * @author laomei on 2019/2/17 15:22
  */
 public class EmbeddedEngineIT {
+
+    private static final Logger logger = LoggerFactory.getLogger(EmbeddedEngineIT.class);
 
     private JdbcTemplate jdbcTemplate;
 
@@ -86,11 +90,10 @@ public class EmbeddedEngineIT {
         if (StringUtils.isEmpty(config)) {
             throw new IllegalStateException("dbz config can not be blank");
         }
-        String ip = System.getenv("database.hostname");
-        if (StringUtils.isEmpty(ip)) {
-            ip = System.getProperty("database.hostname");
-        }
-        config = String.format(config, ip);
+        String ip = System.getProperty("database.hostname");
+        String port = System.getProperty("database.port");
+        logger.info("=============> database host name: {}, port: {}", ip, port);
+        config = String.format(config, ip, port);
         HttpUtil.doPost("http://localhost:8083/connectors", config);
         //sleep 5s to make sure dbz task has started;
         TimeUnit.SECONDS.sleep(5);
