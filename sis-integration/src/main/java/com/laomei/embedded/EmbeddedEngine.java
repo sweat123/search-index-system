@@ -39,7 +39,7 @@ import static org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZE
 /**
  * @author laomei on 2018/12/16 21:02
  */
-public class EmbeddedEngine {
+public class EmbeddedEngine implements Runnable {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

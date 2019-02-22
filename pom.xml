@@ -25,7 +25,7 @@
     <modules>
         <module>sis-core</module>
         <module>sis-solr</module>
-        <module>sis-embedded</module>
+        <module>sis-integration</module>
     </modules>
 
     <properties>
