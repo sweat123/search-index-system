@@ -230,8 +230,8 @@
                                     <CONFIG_STORAGE_TOPIC>connect-configs</CONFIG_STORAGE_TOPIC>
                                     <OFFSET_STORAGE_TOPIC>connect-offset</OFFSET_STORAGE_TOPIC>
                                     <BOOTSTRAP_SERVERS>embedded-test-kafka:9092</BOOTSTRAP_SERVERS>
-                                    <CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL>embedded-test-sr:8082</CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL>
-                                    <CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL>embedded-test-sr:8082</CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL>
+                                    <CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL>http://embedded-test-sr:8082</CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL>
+                                    <CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL>http://embedded-test-sr:8082</CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL>
                                     <HOST_NAME>0.0.0.0</HOST_NAME>
                                     <ADVERTISED_HOST_NAME>127.0.0.1</ADVERTISED_HOST_NAME>
                                     <CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR>1</CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR>
