@@ -67,7 +67,7 @@ public class EmbeddedEngineIT {
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.confluent.kafka.serializers.KafkaAvroDeserializer");
         config.put("schema-registry-url", "127.0.0.1:8082");
         KafkaConsumer<GenericRecord, GenericRecord> consumer = new KafkaConsumer<>(config);
-        consumer.subscribe(Collections.singletonList("sis.inventory.user_desc"));
+        consumer.subscribe(Collections.singletonList("sis.sis.user_desc"));
 
         ConsumerRecords<GenericRecord, GenericRecord> records = consumer.poll(3000);
         // there will be 3 records in kafka topic;
@@ -100,8 +100,8 @@ public class EmbeddedEngineIT {
     }
 
     private void createDbzHistoryTopic() {
-        TopicUtil.createTopic("127.0.0.1:9092", "dbhistory.inventory", 1,  (short) 1);
-        info("create dbz history topic " + "dbhistory.inventory" + " succeed.");
+        TopicUtil.createTopic("127.0.0.1:9092", "dbhistory.sis", 1,  (short) 1);
+        info("create dbz history topic " + "dbhistory.sis" + " succeed.");
     }
 
     private void info(String msg) {

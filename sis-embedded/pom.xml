@@ -15,7 +15,7 @@
     <properties>
         <skipIT>true</skipIT>
         <skipMysqlSetup>true</skipMysqlSetup>
-        <db.schema>inventory</db.schema>
+        <db.schema>sis</db.schema>
         <test-database.user>sis-user</test-database.user>
         <test-database.password>sis-password</test-database.password>
         <test-database.port>13306</test-database.port>
@@ -82,7 +82,7 @@
                     <images>
                         <image>
                             <alias>embedded-test-mysql</alias>
-                            <name>debezium/example-mysql:0.7</name>
+                            <name>laomei/sis-mysql:0.1</name>
                             <run>
                                 <namingStrategy>alias</namingStrategy>
                                 <wait>
@@ -91,7 +91,7 @@
                                 </wait>
                                 <env>
                                     <MYSQL_ROOT_PASSWORD>sis-embedded</MYSQL_ROOT_PASSWORD>
-                                    <!--<MYSQL_DATABASE>${db.schema}</MYSQL_DATABASE>-->
+                                    <MYSQL_DATABASE>${db.schema}</MYSQL_DATABASE>
                                     <MYSQL_USER>${test-database.user}</MYSQL_USER>
                                     <MYSQL_PASSWORD>${test-database.password}</MYSQL_PASSWORD>
                                 </env>
@@ -262,32 +262,32 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--<plugin>-->
-                <!--<groupId>org.flywaydb</groupId>-->
-                <!--<artifactId>flyway-maven-plugin</artifactId>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>migrate</id>-->
-                        <!--<phase>pre-integration-test</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>migrate</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-                <!--<configuration>-->
-                    <!--<skip>${skipIT}</skip>-->
-                    <!--<url>jdbc:mysql://localhost:${test-database.port}?useSSL=false</url>-->
-                    <!--<user>${test-database.user}</user>-->
-                    <!--<password>${test-database.password}</password>-->
-                    <!--<schemas>-->
-                        <!--<schema>${db.schema}</schema>-->
-                    <!--</schemas>-->
-                    <!--<locations>-->
-                        <!--<location>filesystem:src/test/resources/db/migration</location>-->
-                        <!--<location>classpath:db/migration</location>-->
-                    <!--</locations>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>migrate</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>migrate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skip>${skipIT}</skip>
+                    <url>jdbc:mysql://localhost:${test-database.port}?useSSL=false</url>
+                    <user>${test-database.user}</user>
+                    <password>${test-database.password}</password>
+                    <schemas>
+                        <schema>${db.schema}</schema>
+                    </schemas>
+                    <locations>
+                        <location>filesystem:src/test/resources/db/migration</location>
+                        <location>classpath:db/migration</location>
+                    </locations>
+                </configuration>
+            </plugin>
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.8</version>
@@ -331,7 +331,7 @@
                     <enableAssertions>true</enableAssertions>
                     <systemPropertyVariables>
                         <database.hostname>${docker.host.address}</database.hostname>
-                        <spring.datasource.url>jdbc:mysql://${docker.host.address}:${test-database.port}?useSSL=false</spring.datasource.url>
+                        <spring.datasource.url>jdbc:mysql://${docker.host.address}:${test-database.port}/${db.schema}?useSSL=false</spring.datasource.url>
                         <spring.datasource.username>${test-database.user}</spring.datasource.username>
                         <spring.datasource.password>${test-database.password}</spring.datasource.password>
                     </systemPropertyVariables>
