@@ -65,7 +65,7 @@ public class EmbeddedEngineIT {
         config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "io.confluent.kafka.serializers.KafkaAvroDeserializer");
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.confluent.kafka.serializers.KafkaAvroDeserializer");
-        config.put("schema.registry.url", "http://embedded-test-sr:8082");
+        config.put("schema.registry.url", "http://localhost:8082");
         KafkaConsumer<GenericRecord, GenericRecord> consumer = new KafkaConsumer<>(config);
         consumer.subscribe(Collections.singletonList("sis.sis.user_desc"));
 
