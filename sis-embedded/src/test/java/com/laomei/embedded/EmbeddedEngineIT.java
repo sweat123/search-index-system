@@ -79,7 +79,8 @@ public class EmbeddedEngineIT {
         records = consumer.poll(3000);
         Assert.assertEquals(records.count(), 1);
         ConsumerRecord<GenericRecord, GenericRecord> record = records.iterator().next();
-        String address = String.valueOf(record.value().get("address"));
+        GenericRecord after = (GenericRecord) record.value().get("after");
+        String address = String.valueOf(after.get("address"));
         Assert.assertEquals("newAddress", address);
     }
 
