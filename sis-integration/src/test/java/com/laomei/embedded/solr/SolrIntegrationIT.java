@@ -19,6 +19,8 @@ import java.util.Map;
  */
 public class SolrIntegrationIT {
 
+    private static final String USER_DESC = "user_desc";
+
     private EmbeddedEngine engine;
 
     private SolrClient solrClient;
@@ -55,23 +57,23 @@ public class SolrIntegrationIT {
 //        engine.close();
 
         // create collection
-        Create create = Create.createCollection("user_desc", 1, 1);
+        Create create = Create.createCollection(USER_DESC, 1, 1);
         create.process(solrClient);
 
         // create schema
-        addField("name", "string", true);
-        addField("address", "string", true);
-        addField("weight", "solr.TrieFloatField", true);
+        addField("name", "string", true, USER_DESC);
+        addField("address", "string", true, USER_DESC);
+        addField("weight", "pfloat", true, USER_DESC);
     }
 
-    private void addField(String name, String type, boolean required)
+    private void addField(String name, String type, boolean required, String collection)
             throws IOException, SolrServerException {
         Map<String, Object> field = new LinkedHashMap<>();
         field.put("name", name);
         field.put("type", type);
         field.put("stored", true);
         field.put("required", required);
-        new SchemaRequest.AddField(field).process(solrClient, "user_desc");
+        new SchemaRequest.AddField(field).process(solrClient, collection);
     }
 
     private void initSolrClient() {
