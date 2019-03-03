@@ -137,6 +137,11 @@
                 <artifactId>okhttp</artifactId>
                 <version>3.11.0</version>
             </dependency>
+            <dependency>
+                <groupId>com.laomei.connect</groupId>
+                <artifactId>sis-solr</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

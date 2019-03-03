@@ -25,10 +25,10 @@
 ## TODO
 
 - [x] `Executor`每条`sql`支持不同的`dataSource`。
-- [ ] 内置的`kafka connect`, 基于`docker`能够直接运行。
+- [x] 通过`docker`构建环境，使用`Java`代码运行`sis`。
 - [ ] 支持写入`ES`。
 - [ ] 支持写入`Mysql`。
-- [ ] 单元测试覆盖。
+- [x] 增加集成测试。
 
 ## Any Problem
 
