@@ -46,9 +46,11 @@ public class SolrUpdateReducer extends AbstractReducer {
         }
         try {
             solrClient.add(solrCollection, documents);
+            solrClient.commit(solrCollection);
         } catch (Exception e) {
             log.error("update solr collection {} failed.", solrCollection, e);
         }
+        log.info("update solr collection {}, records size {}", solrCollection, documents.size());
     }
 
     @Override

@@ -7,5 +7,7 @@ public interface EngineBuilder {
 
     EngineBuilder addConfig(String key, Object config);
 
+    EngineBuilder addAdditionalConfig(String key, Object config);
+
     EmbeddedEngine build();
 }
