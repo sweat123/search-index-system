@@ -1,6 +1,5 @@
 package com.laomei.sis.solr;
 
-import com.laomei.sis.AbstractReducer;
 import com.laomei.sis.SchemaHelper;
 import com.laomei.sis.SisRecord;
 import com.laomei.sis.JavaTypeConverterUtil;
@@ -17,18 +16,15 @@ import java.util.Map;
 /**
  * @author laomei on 2018/12/1 20:43
  */
-public class SolrUpdateReducer extends AbstractReducer {
+public class SolrUpdateReducer extends AbstractSolrReducer {
 
     private static final Logger log = LoggerFactory.getLogger(SolrUpdateReducer.class);
-
-    private final SolrClient solrClient;
 
     private final String solrCollection;
 
     public SolrUpdateReducer(SchemaHelper schemaHelper, SolrConnectorConfig configs, final SolrClient solrClient) {
-        super(schemaHelper);
+        super(schemaHelper, solrClient);
         this.solrCollection = configs.solrCloudCollection;
-        this.solrClient = solrClient;
     }
 
     @Override

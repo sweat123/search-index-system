@@ -1,6 +1,6 @@
 package com.laomei.sis.solr;
 
-import com.laomei.sis.Reducer;
+import com.laomei.sis.SchemaHelper;
 import com.laomei.sis.SisRecord;
 import org.apache.solr.client.solrj.SolrClient;
 
@@ -9,15 +9,13 @@ import java.util.List;
 /**
  * @author laomei on 2018/12/1 20:45
  */
-public class SolrDeleteReducer implements Reducer {
+public class SolrDeleteReducer extends AbstractSolrReducer {
 
     private final SolrConnectorConfig configs;
 
-    private final SolrClient solrClient;
-
-    public SolrDeleteReducer(final SolrConnectorConfig configs, final SolrClient solrClient) {
+    public SolrDeleteReducer(SchemaHelper schemaHelper, SolrConnectorConfig configs, SolrClient solrClient) {
+        super(schemaHelper, solrClient);
         this.configs = configs;
-        this.solrClient = solrClient;
     }
 
     @Override
@@ -27,6 +25,5 @@ public class SolrDeleteReducer implements Reducer {
 
     @Override
     public void close() {
-
     }
 }
