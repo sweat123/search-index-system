@@ -30,7 +30,7 @@ public class SolrTaskContext extends DefaultTaskContext {
         if ("update".equals(mode)) {
             reducer = new SolrUpdateReducer(schemaHelper, configs, solrClient);
         } else if ("delete".equals(mode)) {
-            reducer = new SolrDeleteReducer(configs, solrClient);
+            reducer = new SolrDeleteReducer(schemaHelper, configs, solrClient);
         } else {
             throw new IllegalArgumentException("illegal solr index mode; you have to set index mode with 'update' or 'delete'");
         }
