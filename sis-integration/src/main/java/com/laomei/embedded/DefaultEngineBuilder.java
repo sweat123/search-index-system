@@ -12,6 +12,8 @@ public class DefaultEngineBuilder implements EngineBuilder {
 
     private final Map<String, Object> configs = new HashMap<>();
 
+    private final Map<String, Object> additionalConfigs = new HashMap<>();
+
     public static EngineBuilder create() {
         return new DefaultEngineBuilder();
     }
@@ -26,11 +28,17 @@ public class DefaultEngineBuilder implements EngineBuilder {
     }
 
     @Override
+    public EngineBuilder addAdditionalConfig(final String key, final Object config) {
+        additionalConfigs.put(key, config);
+        return this;
+    }
+
+    @Override
     public EmbeddedEngine build() {
         BaseConnectorConfig connectorConfig = new BaseConnectorConfig(
                 BaseConnectorConfig.CONFIG_DEF,
                 configs
         );
-        return new EmbeddedEngine(connectorConfig);
+        return new EmbeddedEngine(connectorConfig, additionalConfigs);
     }
 }

@@ -51,18 +51,21 @@ public class EmbeddedEngine implements Runnable {
 
     private final AtomicBoolean       running;
 
-    public EmbeddedEngine(BaseConnectorConfig config) {
+    private final Map<String, Object> additionalConfigs;
+
+    public EmbeddedEngine(BaseConnectorConfig config, Map<String, Object> additionalConfigs) {
         this.config = config;
+        this.additionalConfigs = additionalConfigs;
         this.classLoader = Thread.currentThread().getContextClassLoader();
-        this.topics = Arrays.stream(config.getString("topics").split(","))
+        this.topics = Arrays.stream(additionalConfigs.get("topics").toString().split(","))
                 .map(String::trim)
                 .collect(Collectors.toSet());
         this.running = new AtomicBoolean(false);
     }
 
     public void run() {
-        final String sisTaskName = config.getString("sis.task");
-        final String connectorClassName = config.getOriginalValue("connector.class");
+        final String sisTaskName = String.valueOf(additionalConfigs.get("sis.task"));
+        final String connectorClassName = String.valueOf(additionalConfigs.get("connector.class"));
         SinkConnector connector = null;
 
         //instance sink connector
@@ -162,7 +165,7 @@ public class EmbeddedEngine implements Runnable {
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new ConverterException(e);
         }
-        converter.configure(Collections.singletonMap(SOURCE_SCHEMA_REGISTRY_URL, config.getOriginalValue(SOURCE_SCHEMA_REGISTRY_URL)), isKey);
+        converter.configure(Collections.singletonMap(SOURCE_SCHEMA_REGISTRY_URL, additionalConfigs.get(SOURCE_SCHEMA_REGISTRY_URL)), isKey);
         return converter;
     }
 
@@ -171,7 +174,7 @@ public class EmbeddedEngine implements Runnable {
         final Map<String, ?> originConfigs = config.getOriginalConfigs();
         props.put(BOOTSTRAP_SERVERS_CONFIG, originConfigs.get(BOOTSTRAP_SERVERS_CONFIG));
         props.put(GROUP_ID_CONFIG, originConfigs.get(GROUP_ID_CONFIG));
-        props.put(AUTO_OFFSET_RESET_CONFIG, originConfigs.get(AUTO_OFFSET_RESET_CONFIG));
+        props.put(AUTO_OFFSET_RESET_CONFIG, additionalConfigs.get(AUTO_OFFSET_RESET_CONFIG));
         props.put(ENABLE_AUTO_COMMIT_CONFIG, true);
         props.put(KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.ByteArrayDeserializer");
         props.put(VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.ByteArrayDeserializer");

@@ -58,10 +58,10 @@ public class SolrConnectorConfig extends BaseConnectorConfig {
                 .define(SOLR_CLOUD_ZK_HOST, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
                         ConfigDef.Importance.HIGH, SOLR_CLOUD_ZK_HOST_DOC,
                         SOLR_GROUP, 1, ConfigDef.Width.LONG, SOLR_CLOUD_ZK_HOST_DISPLAY)
-                .define(SOLR_CLOUD_USERNAME, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
+                .define(SOLR_CLOUD_USERNAME, ConfigDef.Type.STRING, "",
                         ConfigDef.Importance.LOW, SOLR_CLOUD_USERNAME_DOC,
                         SOLR_GROUP, 2, ConfigDef.Width.LONG, SOLR_CLOUD_USERNAME_DISPLAY)
-                .define(SOLR_CLOUD_PASSWORD, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
+                .define(SOLR_CLOUD_PASSWORD, ConfigDef.Type.STRING, "",
                         ConfigDef.Importance.LOW, SOLR_CLOUD_PASSWORD_DOC,
                         SOLR_GROUP, 3, ConfigDef.Width.LONG, SOLR_CLOUD_PASSWORD_DISPLAY)
                 .define(SOLR_CLOUD_COLLECTION, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,

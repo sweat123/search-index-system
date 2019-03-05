@@ -22,6 +22,7 @@ public abstract class AbstractTaskContext {
     public AbstractTaskContext(String name) {
         this.name = name;
         this.jdbcInited = false;
+        this.transformContext = new TransformContext();
     }
 
     public abstract void initReducer() throws JdbcContextException;
