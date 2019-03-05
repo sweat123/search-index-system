@@ -31,7 +31,7 @@ public class SqlExecutor implements Executor {
 
     private final ExecutorConfigurations configurations;
 
-    private final JdbcContext jdbcContext;
+    private final JdbcContext            jdbcContext;
 
     public SqlExecutor(final ExecutorConfigurations configurations, final JdbcContext jdbcContext) {
         this.configurations = configurations;
@@ -85,7 +85,6 @@ public class SqlExecutor implements Executor {
 
     private Map<String, Object> executeSql(Map<String, Object> context, String sql, boolean required, JdbcTemplate jdbcTemplate)
             throws ErrorSqlConfigException, NullSqlResultException {
-
         PlaceHolderParser placeHolderParser = PlaceHolderParser.getParser(context);
         String parsedSql = placeHolderParser.parse(sql);
         List<Map<String, Object>> sqlResults = null;

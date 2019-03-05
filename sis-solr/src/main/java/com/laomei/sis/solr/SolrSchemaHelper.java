@@ -59,6 +59,10 @@ public class SolrSchemaHelper implements SchemaHelper {
 
     @Override
     public void close() {
+        if (schemaMap != null) {
+            schemaMap.clear();
+            schemaMap = null;
+        }
     }
 
     private Map<String, String> combine(List<SimpleOrderedMap> fields, List<SimpleOrderedMap> fieldTypes) {

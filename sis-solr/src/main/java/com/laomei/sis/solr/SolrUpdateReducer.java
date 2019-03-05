@@ -6,8 +6,6 @@ import com.laomei.sis.JavaTypeConverterUtil;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.common.SolrInputDocument;
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +16,8 @@ import java.util.Map;
  */
 public class SolrUpdateReducer extends AbstractSolrReducer {
 
-    private static final Logger log = LoggerFactory.getLogger(SolrUpdateReducer.class);
-
-    private final String solrCollection;
-
     public SolrUpdateReducer(SchemaHelper schemaHelper, SolrConnectorConfig configs, final SolrClient solrClient) {
-        super(schemaHelper, solrClient);
-        this.solrCollection = configs.solrCloudCollection;
+        super(schemaHelper, solrClient, configs.solrCloudCollection);
     }
 
     @Override
@@ -44,13 +37,10 @@ public class SolrUpdateReducer extends AbstractSolrReducer {
             solrClient.add(solrCollection, documents);
             solrClient.commit(solrCollection);
         } catch (Exception e) {
-            log.error("update solr collection {} failed.", solrCollection, e);
+            logger.error("update solr collection {} failed.", solrCollection, e);
+            return;
         }
-        log.info("update solr collection {}, records size {}", solrCollection, documents.size());
-    }
-
-    @Override
-    public void close() {
+        logger.info("update solr collection {}, records size {}", solrCollection, documents.size());
     }
 
     private SolrInputDocument getSolrDocument(Map<String, Object> context) {
@@ -58,7 +48,7 @@ public class SolrUpdateReducer extends AbstractSolrReducer {
         try {
             enumerateContext(context, document);
         } catch (Exception e) {
-            log.error("get solr document failed.", e);
+            logger.error("get solr document failed.", e);
             return null;
         }
         return document;
@@ -66,7 +56,7 @@ public class SolrUpdateReducer extends AbstractSolrReducer {
 
     private void enumerateContext(Map<String, Object> context, SolrInputDocument document) {
         if (null == context) {
-            log.error("context can not be null!");
+            logger.error("context can not be null!");
             throw new NullPointerException("context can not be null!");
         }
         for (Map.Entry<String, Object> element : context.entrySet()) {
