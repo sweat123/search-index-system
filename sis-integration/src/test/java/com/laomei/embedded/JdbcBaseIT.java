@@ -21,8 +21,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public abstract class JdbcBaseIT {
 
+    private static final AtomicBoolean initDbz = new AtomicBoolean(false);
     protected final Logger logger = LoggerFactory.getLogger(getClass());
-    private final AtomicBoolean initDbz = new AtomicBoolean(false);
     protected JdbcTemplate jdbcTemplate;
 
     @Before

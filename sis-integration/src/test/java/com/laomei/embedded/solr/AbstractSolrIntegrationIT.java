@@ -27,10 +27,10 @@ public abstract class AbstractSolrIntegrationIT extends JdbcBaseIT {
 
     protected static final String SOLR_CLOUD_URL = "localhost:2181";
     protected static final String USER_DESC = "user_desc";
+    protected static final AtomicBoolean init = new AtomicBoolean(false);
 
     protected EmbeddedEngine engine;
     protected CloudSolrClient solrClient;
-    protected AtomicBoolean init = new AtomicBoolean(false);
 
     @Before
     public void init() throws IOException, SolrServerException, InterruptedException {
