@@ -6,33 +6,30 @@ import com.laomei.sis.solr.SolrConnectorConfig;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
-import org.apache.solr.client.solrj.request.CollectionAdminRequest.Create;
+import org.apache.solr.client.solrj.request.CollectionAdminRequest;
 import org.apache.solr.client.solrj.request.schema.SchemaRequest;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.MapSolrParams;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
- * @author laomei on 2019/2/22 19:24
+ * @author laomei on 2019/3/6 19:45
  */
-public class SolrIntegrationIT extends JdbcBaseIT {
+public abstract class AbstractSolrIntegrationIT extends JdbcBaseIT {
 
-    private static final String SOLR_CLOUD_URL = "localhost:2181";
-    private static final String USER_DESC = "user_desc";
+    protected static final String SOLR_CLOUD_URL = "localhost:2181";
+    protected static final String USER_DESC = "user_desc";
 
-    private EmbeddedEngine engine;
+    protected EmbeddedEngine engine;
 
-    private CloudSolrClient solrClient;
+    protected CloudSolrClient solrClient;
 
     @Before
     public void init() throws IOException, SolrServerException, InterruptedException {
@@ -53,23 +50,21 @@ public class SolrIntegrationIT extends JdbcBaseIT {
         }
     }
 
-    @Test
-    public void testSisSolr() throws IOException, SolrServerException, InterruptedException {
-        jdbcTemplate.execute("INSERT INTO user_desc(name, address, weight) VALUES('user5', 'address5', 10.5)");
-        // we need to wait to 2s;
-        // sis will consume the record provided by dbz and insert the value to solr
-        TimeUnit.SECONDS.sleep(5);
-        Map<String, String> queryMap = new HashMap<>();
-        queryMap.put("q", "name:user5");
+    protected String getAutoOffsetReset() {
+        return "earliest";
+    }
+
+    protected abstract String getSisMode();
+
+    protected abstract String getSisSourceConfiguration();
+
+    protected abstract String getSisExecutorConfiguration();
+
+    protected SolrDocumentList query(String collection, Map<String, String> queryMap)
+            throws IOException, SolrServerException {
         MapSolrParams params = new MapSolrParams(queryMap);
-        QueryResponse response = solrClient.query(USER_DESC, params);
-        SolrDocumentList documents = response.getResults();
-        logger.info("***********");
-        logger.info("documents: {}", documents);
-        logger.info("***********");
-        Assert.assertEquals(1, documents.size());
-        Object address = documents.get(0).getFieldValue("address");
-        Assert.assertEquals("address5", address);
+        QueryResponse response = solrClient.query(collection, params);
+        return response.getResults();
     }
 
     private void initEmbeddedEngine() {
@@ -77,7 +72,7 @@ public class SolrIntegrationIT extends JdbcBaseIT {
         Map<String, Object> additionalConfig = new HashMap<>();
         String jdbcUrl = System.getProperty("spring.datasource.url");
         config.put(SolrConnectorConfig.SOLR_CLOUD_ZK_HOST, SOLR_CLOUD_URL);
-        config.put(SolrConnectorConfig.SOLR_CLOUD_INDEX_MODE, "update");
+        config.put(SolrConnectorConfig.SOLR_CLOUD_INDEX_MODE, getSisMode());
         config.put(SolrConnectorConfig.SOLR_CLOUD_COLLECTION, "user_desc");
         config.put(SolrConnectorConfig.CONNECTOR_NAME, "sis-test-task");
         config.put(SolrConnectorConfig.DEFAULT_MYSQL_URL, jdbcUrl);
@@ -85,23 +80,21 @@ public class SolrIntegrationIT extends JdbcBaseIT {
         config.put(SolrConnectorConfig.DEFAULT_MYSQL_PASSWORD, "sis-embedded");
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         config.put(ConsumerConfig.GROUP_ID_CONFIG, "sis.integration.test.v1.0");
-        String sourceConfiguration = readFile("dbz/solr/source_configuration.json");
-        String executorConfiguration = readFile("dbz/solr/executor_configuration.json");
-        config.put(SolrConnectorConfig.SOURCE_CONFIGURATIONS, sourceConfiguration);
-        config.put(SolrConnectorConfig.EXECUTOR_CONFIGURATIONS, executorConfiguration);
+        config.put(SolrConnectorConfig.SOURCE_CONFIGURATIONS, getSisSourceConfiguration());
+        config.put(SolrConnectorConfig.EXECUTOR_CONFIGURATIONS, getSisExecutorConfiguration());
         SolrConnectorConfig connectorConfig = new SolrConnectorConfig(config);
         additionalConfig.put("topics", "sis.sis.user_desc");
         additionalConfig.put("tasks.max", 1);
         additionalConfig.put("sis.task", "sis.integration.test");
         additionalConfig.put("connector.class", "com.laomei.sis.solr.SolrConnector");
-        additionalConfig.put("auto.offset.reset", "earliest");
+        additionalConfig.put("auto.offset.reset", getAutoOffsetReset());
         additionalConfig.put("schema.registry.url", "http://localhost:8082");
         engine = new EmbeddedEngine(connectorConfig, additionalConfig);
     }
 
     private void initSolrCollection() throws IOException, SolrServerException {
         // create collection
-        Create create = Create.createCollection(USER_DESC, 1, 1);
+        CollectionAdminRequest.Create create = CollectionAdminRequest.Create.createCollection(USER_DESC, 1, 1);
         create.process(solrClient);
         // create schema
         addField("name", "string", true, USER_DESC);

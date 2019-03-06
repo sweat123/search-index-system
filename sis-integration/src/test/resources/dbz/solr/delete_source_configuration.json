@@ -1,0 +1,15 @@
+{
+  "sourceConfigurations": [
+    {
+      "topic": "sis.sis.user_desc",
+      "placeholder": {
+        "config": "${id}"
+      },
+      "filter": {
+        "match": {
+          "address": "-1"
+        }
+      }
+    }
+  ]
+}
