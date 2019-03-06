@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author laomei on 2019/3/6 19:45
@@ -28,8 +29,8 @@ public abstract class AbstractSolrIntegrationIT extends JdbcBaseIT {
     protected static final String USER_DESC = "user_desc";
 
     protected EmbeddedEngine engine;
-
     protected CloudSolrClient solrClient;
+    protected AtomicBoolean init = new AtomicBoolean(false);
 
     @Before
     public void init() throws IOException, SolrServerException, InterruptedException {
@@ -93,6 +94,9 @@ public abstract class AbstractSolrIntegrationIT extends JdbcBaseIT {
     }
 
     private void initSolrCollection() throws IOException, SolrServerException {
+        if (!init.compareAndSet(false, true)) {
+            return;
+        }
         // create collection
         CollectionAdminRequest.Create create = CollectionAdminRequest.Create.createCollection(USER_DESC, 1, 1);
         create.process(solrClient);
