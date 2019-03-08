@@ -19,7 +19,7 @@ public class SolrUpdateIntegrationIT extends AbstractSolrIntegrationIT {
         jdbcTemplate.execute("INSERT INTO user_desc(name, address, weight) VALUES('user5', 'address5', 10.5)");
         // we need to wait to 2s;
         // sis will consume the record provided by dbz and insert the value to solr
-        TimeUnit.SECONDS.sleep(2);
+        TimeUnit.SECONDS.sleep(5);
         SolrDocumentList documents = query(USER_DESC, Collections.singletonMap("q", "name:user5"));
         logger.info("***********");
         logger.info("documents: {}", documents);

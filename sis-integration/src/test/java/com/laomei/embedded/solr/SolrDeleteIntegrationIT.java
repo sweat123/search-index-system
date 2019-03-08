@@ -17,7 +17,7 @@ public class SolrDeleteIntegrationIT extends AbstractSolrIntegrationIT {
     @Test
     public void testSisDeleteSolr() throws InterruptedException, IOException, SolrServerException {
         jdbcTemplate.execute("UPDATE user_desc SET address='-1' WHERE name='user1'");
-        TimeUnit.SECONDS.sleep(2);
+        TimeUnit.SECONDS.sleep(5);
         SolrDocumentList list = query(USER_DESC, Collections.singletonMap("q", "name:user1"));
         Assert.assertTrue(list.isEmpty());
     }
