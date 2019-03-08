@@ -29,7 +29,7 @@ public class SolrDeleteReducer extends AbstractSolrReducer {
             return;
         }
         try {
-            solrClient.deleteById(ids);
+            solrClient.deleteById(solrCollection, ids);
             solrClient.commit(solrCollection);
         } catch (SolrServerException | IOException e) {
             logger.error("delete solr document failed. solr collection {}", solrCollection, e);
