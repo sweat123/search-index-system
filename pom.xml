@@ -26,6 +26,7 @@
         <module>sis-core</module>
         <module>sis-solr</module>
         <module>sis-integration</module>
+        <module>sis-mysql</module>
     </modules>
 
     <properties>
