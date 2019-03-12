@@ -14,7 +14,7 @@ public class SolrConnectorConfig extends BaseConnectorConfig {
     private static final String SOLR_CLOUD_ZK_HOST_DOC = "solr cloud zookeeper host";
     private static final String SOLR_CLOUD_ZK_HOST_DISPLAY = "solr cloud zk host";
 
-    public static final  String SOLR_CLOUD_USERNAME = "solr cloud username";
+    public static final  String SOLR_CLOUD_USERNAME = "solr.cloud.username";
     private static final String SOLR_CLOUD_USERNAME_DOC = "solr cloud username";
     private static final String SOLR_CLOUD_USERNAME_DISPLAY = "solr cloud username";
 

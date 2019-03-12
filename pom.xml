@@ -27,6 +27,7 @@
         <module>sis-solr</module>
         <module>sis-integration</module>
         <module>sis-mysql</module>
+        <module>sis-es</module>
     </modules>
 
     <properties>
@@ -45,6 +46,9 @@
         <version.joda>2.9.9</version.joda>
         <version.fastjson>1.2.54</version.fastjson>
         <version.avro>1.8.2</version.avro>
+        <version.es>6.3.2</version.es>
+        <version.jackson>2.9.6</version.jackson>
+        <version.common>3.7</version.common>
     </properties>
 
     <dependencyManagement>
@@ -147,6 +151,26 @@
                 <groupId>com.laomei.connect</groupId>
                 <artifactId>sis-solr</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>${version.es}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch</artifactId>
+                <version>${version.es}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${version.common}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${version.jackson}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
