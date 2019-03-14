@@ -34,11 +34,11 @@ public class SolrDeleteIntegrationIT extends AbstractSolrIntegrationIT {
 
     @Override
     protected String getSisSourceConfiguration() {
-        return readFile("dbz/solr/delete_source_configuration.json");
+        return readFile("solr/delete_source_configuration.json");
     }
 
     @Override
     protected String getSisExecutorConfiguration() {
-        return readFile("dbz/solr/empty_executor_configuration.json");
+        return readFile("solr/empty_executor_configuration.json");
     }
 }

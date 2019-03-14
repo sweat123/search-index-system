@@ -21,6 +21,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 /**
  * @author yulei
@@ -85,9 +86,9 @@ public class EsTaskContext extends DefaultTaskContext {
         String hosts = configs.esAddress;
         String username = configs.esUsername;
         String password = configs.esPassword;
-        RestClientBuilder builder = RestClient.builder(Arrays.stream(hosts.split(","))
-                .map(HttpHost::new)
-                .toArray(HttpHost[]::new));
+        RestClientBuilder builder = RestClient.builder(
+                Stream.of(hosts.split(",")).map(HttpHost::create).toArray(HttpHost[]::new)
+        );
         if (StringUtils.hasLength(username) && StringUtils.hasLength(password)) {
             final CredentialsProvider provider = new BasicCredentialsProvider();
             provider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(username, password));

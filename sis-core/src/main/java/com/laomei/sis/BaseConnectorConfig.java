@@ -70,14 +70,14 @@ public class BaseConnectorConfig extends AbstractConfig {
             .define(EXECUTOR_CONFIGURATIONS, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
                     ConfigDef.Importance.HIGH, EXECUTOR_CONFIGURATIONS_DOC,
                     EXECUTOR_GROUP, 1, ConfigDef.Width.LONG, EXECUTOR_CONFIGURATIONS_DISPLAY)
-            .define(DEFAULT_MYSQL_URL, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
-                    ConfigDef.Importance.HIGH, DEFAULT_MYSQL_URL_DOC,
+            .define(DEFAULT_MYSQL_URL, ConfigDef.Type.STRING, "",
+                    ConfigDef.Importance.LOW, DEFAULT_MYSQL_URL_DOC,
                     MYSQL_GROUP, 1, ConfigDef.Width.LONG, DEFAULT_MYSQL_URL_DISPLAY)
-            .define(DEFAULT_MYSQL_USERNAME, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
-                    ConfigDef.Importance.HIGH, DEFAULT_MYSQL_USERNAME_DOC,
+            .define(DEFAULT_MYSQL_USERNAME, ConfigDef.Type.STRING, "",
+                    ConfigDef.Importance.LOW, DEFAULT_MYSQL_USERNAME_DOC,
                     MYSQL_GROUP, 2, ConfigDef.Width.LONG, DEFAULT_MYSQL_USERNAME_DISPLAY)
-            .define(DEFAULT_MYSQL_PASSWORD, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
-                    ConfigDef.Importance.HIGH, DEFAULT_MYSQL_PASSWORD_DOC,
+            .define(DEFAULT_MYSQL_PASSWORD, ConfigDef.Type.STRING, "",
+                    ConfigDef.Importance.LOW, DEFAULT_MYSQL_PASSWORD_DOC,
                     MYSQL_GROUP, 3, ConfigDef.Width.LONG, DEFAULT_MYSQL_PASSWORD_DISPLAY)
             .define(MYSQL_DATASOURCE_REGISTER, ConfigDef.Type.STRING, null,
                     ConfigDef.Importance.LOW, MYSQL_DATASOURCE_REGISTER_DOC,

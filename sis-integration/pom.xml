@@ -102,6 +102,10 @@
             <groupId>com.laomei.connect</groupId>
             <artifactId>sis-solr</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.laomei.connect</groupId>
+            <artifactId>sis-es</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

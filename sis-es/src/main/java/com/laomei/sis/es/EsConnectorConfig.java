@@ -54,7 +54,7 @@ public class EsConnectorConfig extends BaseConnectorConfig {
                 .define(ES_TYPE, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
                         ConfigDef.Importance.MEDIUM, ES_TYPE_DOC,
                         ES_GROUP, 5, ConfigDef.Width.MEDIUM, ES_TYPE_DISPLAY)
-                .define(ES_MODE, ConfigDef.Type.INT, "update",
+                .define(ES_MODE, ConfigDef.Type.STRING, "update",
                         ConfigDef.Importance.LOW, ES_MODE_DOC,
                         ES_GROUP, 6, ConfigDef.Width.MEDIUM, ES_MODE_DISPLAY);
     }
