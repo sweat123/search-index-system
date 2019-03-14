@@ -26,7 +26,7 @@
 
 - [x] `Executor`每条`sql`支持不同的`dataSource`。
 - [x] 通过`docker`构建环境，使用`Java`代码运行`sis`。
-- [ ] 支持写入`ES`。
+- [x] 支持写入`ES`。
 - [ ] 支持写入`Mysql`。
 - [x] 增加集成测试。
 
