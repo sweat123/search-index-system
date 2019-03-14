@@ -37,7 +37,7 @@ public class EsUpdateReducer extends AbstractEsReducer {
                     request.source(expose(new HashMap<>(), context));
                     return request;
                 }).collect(Collectors.toList());
-        if (!requests.isEmpty()) {
+        if (requests.isEmpty()) {
             return;
         }
         for (IndexRequest request : requests) {
