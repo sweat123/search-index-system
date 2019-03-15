@@ -3,6 +3,13 @@
 
 # index system base on kafka connect
 
+`SIS`是一个`kafka connect`的实现，它能基于`kafka`提供的数据，通过反查数据库，丰富数据内容。最后丰富，聚合，过滤后的数据写入目标数据源内。
+`SIS`需要配合[confluent](https://www.confluent.io/)体系，使用基于`schema registry`的序列化器。
+
+![架构图](docs/pics/sis.PNG)
+
+目前支持写入`solr`, `elasticsearch`。`mysql`的写入也在支持中。
+
 ## 使用前必看
 
 项目能够运行的前提条件:
@@ -24,16 +31,11 @@
 
 ## TODO
 
-- [x] `Executor`每条`sql`支持不同的`dataSource`。
-- [x] 通过`docker`构建环境，使用`Java`代码运行`sis`。
-- [x] 支持写入`ES`。
 - [ ] 支持写入`Mysql`。
-- [x] 增加集成测试。
 
 ## Any Problem
 
 `email`: `sweatott@gmail.com`
-
 
 # 其它
 
