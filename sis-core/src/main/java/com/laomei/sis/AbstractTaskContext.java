@@ -7,15 +7,15 @@ import com.laomei.sis.exception.JdbcContextException;
  */
 public abstract class AbstractTaskContext {
 
-    protected String    name;
+    protected String           name;
 
-    protected Reducer   reducer;
+    protected Reducer          reducer;
 
     protected TransformContext transformContext;
 
-    protected Executor  executor;
+    protected Executor         executor;
 
-    protected JdbcContext jdbcContext;
+    protected JdbcContext      jdbcContext;
 
     protected volatile boolean jdbcInited;
 
