@@ -41,19 +41,22 @@ public abstract class JdbcBaseIT {
         if (!initDbz.compareAndSet(false, true)) {
             return;
         }
+        //1. create dbz history topic;
         createDbzHistoryTopic();
+        //2. create dbz task
         String config = readFile("dbz/connect.json");
         if (StringUtils.isEmpty(config)) {
             throw new IllegalStateException("dbz config can not be blank");
         }
         HttpUtil.doPost("http://localhost:8083/connectors", config);
+        logger.info("create dbz connector");
         //sleep 5s to make sure dbz task has started;
         TimeUnit.SECONDS.sleep(5);
     }
 
     private void createDbzHistoryTopic() {
         TopicUtil.createTopic("127.0.0.1:9092", "dbhistory.sis", 1,  (short) 1);
-        info("create dbz history topic " + "dbhistory.sis" + " succeed.");
+        info("create dbz history topic 'dbhistory.sis' succeed.");
     }
 
     protected String readFile(String location) {

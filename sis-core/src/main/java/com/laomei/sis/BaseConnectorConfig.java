@@ -58,7 +58,7 @@ public class BaseConnectorConfig extends AbstractConfig {
     private static final String CONNECTOR = "Connector";
     private static final String SOURCE_GROUP = "Source";
     private static final String EXECUTOR_GROUP = "Executor";
-    private static final String MYSQL_GROUP = "Mysql";
+    private static final String DEFAULT_MYSQL_GROUP = "Default_Mysql";
 
     public static final ConfigDef CONFIG_DEF = new ConfigDef()
             .define(CONNECTOR_NAME, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
@@ -72,16 +72,20 @@ public class BaseConnectorConfig extends AbstractConfig {
                     EXECUTOR_GROUP, 1, ConfigDef.Width.LONG, EXECUTOR_CONFIGURATIONS_DISPLAY)
             .define(DEFAULT_MYSQL_URL, ConfigDef.Type.STRING, "",
                     ConfigDef.Importance.LOW, DEFAULT_MYSQL_URL_DOC,
-                    MYSQL_GROUP, 1, ConfigDef.Width.LONG, DEFAULT_MYSQL_URL_DISPLAY)
+                    DEFAULT_MYSQL_GROUP, 1, ConfigDef.Width.LONG, DEFAULT_MYSQL_URL_DISPLAY)
             .define(DEFAULT_MYSQL_USERNAME, ConfigDef.Type.STRING, "",
                     ConfigDef.Importance.LOW, DEFAULT_MYSQL_USERNAME_DOC,
-                    MYSQL_GROUP, 2, ConfigDef.Width.LONG, DEFAULT_MYSQL_USERNAME_DISPLAY)
+                    DEFAULT_MYSQL_GROUP, 2, ConfigDef.Width.LONG, DEFAULT_MYSQL_USERNAME_DISPLAY)
             .define(DEFAULT_MYSQL_PASSWORD, ConfigDef.Type.STRING, "",
                     ConfigDef.Importance.LOW, DEFAULT_MYSQL_PASSWORD_DOC,
-                    MYSQL_GROUP, 3, ConfigDef.Width.LONG, DEFAULT_MYSQL_PASSWORD_DISPLAY)
+                    DEFAULT_MYSQL_GROUP, 3, ConfigDef.Width.LONG, DEFAULT_MYSQL_PASSWORD_DISPLAY)
             .define(MYSQL_DATASOURCE_REGISTER, ConfigDef.Type.STRING, null,
                     ConfigDef.Importance.LOW, MYSQL_DATASOURCE_REGISTER_DOC,
-                    MYSQL_GROUP, 4, ConfigDef.Width.LONG, MYSQL_DATASOURCE_REGISTER_DISPLAY);
+                    DEFAULT_MYSQL_GROUP, 4, ConfigDef.Width.LONG, MYSQL_DATASOURCE_REGISTER_DISPLAY);
+
+    public static ConfigDef configDef() {
+        return new ConfigDef(CONFIG_DEF);
+    }
 
     public final String sourceConfigurations;
 

@@ -26,14 +26,16 @@ public class MysqlConnectorConfig extends BaseConnectorConfig {
     private static final String SINK_MYSQL_TABLE_DOC = "the table which sis will upsert or delete data";
     private static final String SINK_MYSQL_TABLE_DISPLAY = "the table which sis will upsert or delete data";
 
-    public static final  String SINK_MYSQL_MODE = "sink.mysql.mode";
-    private static final String SINK_MYSQL_MODE_DOC = "mysql mode; delete or update (include insert)";
-    private static final String SINK_MYSQL_MODE_DISPLAY = "mysql mode; delete or update (include insert)";
+//    public static final  String SINK_MYSQL_MODE = "sink.mysql.mode";
+//    private static final String SINK_MYSQL_MODE_DOC = "mysql mode; delete or update (include insert)";
+//    private static final String SINK_MYSQL_MODE_DISPLAY = "mysql mode; delete or update (include insert)";
 
     private static final String MYSQL_GROUP = "Mysql";
 
+    private static final ConfigDef CONFIG_DEF;
+
     static {
-        CONFIG_DEF
+        CONFIG_DEF = configDef()
                 .define(SINK_MYSQL_URL, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
                         ConfigDef.Importance.HIGH, SINK_MYSQL_URL_DOC,
                         MYSQL_GROUP, 1, ConfigDef.Width.LONG, SINK_MYSQL_URL_DISPLAY)
@@ -45,10 +47,10 @@ public class MysqlConnectorConfig extends BaseConnectorConfig {
                         MYSQL_GROUP, 3, ConfigDef.Width.LONG, SINK_MYSQL_PASSWORD_DISPLAY)
                 .define(SINK_MYSQL_TABLE, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
                         ConfigDef.Importance.HIGH, SINK_MYSQL_TABLE_DOC,
-                        MYSQL_GROUP, 4, ConfigDef.Width.LONG, SINK_MYSQL_TABLE_DISPLAY)
-                .define(SINK_MYSQL_MODE, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
-                        ConfigDef.Importance.HIGH, SINK_MYSQL_MODE_DOC,
-                        MYSQL_GROUP, 5, ConfigDef.Width.LONG, SINK_MYSQL_MODE_DISPLAY);
+                        MYSQL_GROUP, 4, ConfigDef.Width.LONG, SINK_MYSQL_TABLE_DISPLAY);
+//                .define(SINK_MYSQL_MODE, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
+//                        ConfigDef.Importance.HIGH, SINK_MYSQL_MODE_DOC,
+//                        MYSQL_GROUP, 5, ConfigDef.Width.LONG, SINK_MYSQL_MODE_DISPLAY);
     }
 
     public static ConfigDef getConfigDef() {
@@ -63,7 +65,7 @@ public class MysqlConnectorConfig extends BaseConnectorConfig {
 
     public final String sinkMysqlTable;
 
-    public final String sinkMysqlMode;
+//    public final String sinkMysqlMode;
 
     public MysqlConnectorConfig(final Map<String, ?> props) {
         super(CONFIG_DEF, props);
@@ -71,6 +73,6 @@ public class MysqlConnectorConfig extends BaseConnectorConfig {
         sinkMysqlUsername = getString(SINK_MYSQL_USERNAME);
         sinkMysqlPassword = getString(SINK_MYSQL_PASSWORD);
         sinkMysqlTable = getString(SINK_MYSQL_TABLE);
-        sinkMysqlMode = getString(SINK_MYSQL_MODE);
+//        sinkMysqlMode = getString(SINK_MYSQL_MODE);
     }
 }
