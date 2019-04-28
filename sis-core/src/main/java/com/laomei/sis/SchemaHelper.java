@@ -9,5 +9,7 @@ public interface SchemaHelper {
 
     String getTargetClass(String key);
 
+    String[] getFields();
+
     void close();
 }

@@ -65,6 +65,11 @@ public class EsSchemaHelper implements SchemaHelper {
     }
 
     @Override
+    public String[] getFields() {
+        return schemaMap.keySet().toArray(new String[0]);
+    }
+
+    @Override
     public void close() {
         if (schemaMap != null) {
             schemaMap.clear();

@@ -36,7 +36,7 @@ public class JdbcContext {
             config.setJdbcUrl(url);
             config.setUsername(username);
             config.setPassword(password);
-            config.setMaximumPoolSize(3);
+            config.setMaximumPoolSize(10);
             ds = new HikariDataSource(config);
             jdbcTemplate = new JdbcTemplate(ds);
         } catch (Exception e) {

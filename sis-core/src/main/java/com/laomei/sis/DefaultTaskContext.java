@@ -44,8 +44,14 @@ public abstract class DefaultTaskContext extends AbstractTaskContext {
         initSinkReducer();
     }
 
+    /**
+     * Init sink reducer
+     */
     public abstract void initSinkReducer();
 
+    /**
+     * Init transforms;
+     */
     @Override
     public void initTransform() throws JdbcContextException {
         if (!jdbcInited) {
@@ -66,6 +72,11 @@ public abstract class DefaultTaskContext extends AbstractTaskContext {
         });
     }
 
+    /**
+     * Init executor; Now we have 2 executors, NoopExecutor and SqlExecutor;
+     * 1. NoopExecutor: do nothing;
+     * 2. SqlExecutor: select data from mysql and join data to record context;
+     */
     @Override
     public void initExecutor() throws JdbcContextException {
         if (!jdbcInited) {
@@ -89,6 +100,9 @@ public abstract class DefaultTaskContext extends AbstractTaskContext {
         }
     }
 
+    /**
+     * Create jdbc context and init mysql datasource
+     */
     @Override
     public void initJdbcContext() throws JdbcContextException {
         if (jdbcInited) {
@@ -108,7 +122,6 @@ public abstract class DefaultTaskContext extends AbstractTaskContext {
         if (StringUtils.hasLength(url)) {
             registerDataSource(url, username, password, DEFAULT_JDBC_TEMPLATE);
         }
-
         //register other dataSource
         String registerDataSourceConfigure = config.mysqlDataSourceRegister;
         if (StringUtils.isEmpty(registerDataSourceConfigure)) {
