@@ -8,7 +8,7 @@
 
 ![架构图](docs/pics/sis.PNG)
 
-目前支持写入`solr`, `elasticsearch`。`mysql`的写入也在支持中。
+目前支持写入`solr`, `elasticsearch`，`mysql`（`Mysql`目前不支持删除）。
 
 ## 使用前必看
 
