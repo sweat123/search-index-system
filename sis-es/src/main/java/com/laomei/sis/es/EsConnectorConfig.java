@@ -37,8 +37,11 @@ public class EsConnectorConfig extends BaseConnectorConfig {
     //group
     private static final String ES_GROUP = "ElasticSearch";
 
+
+    private static final ConfigDef CONFIG_DEF;
+
     static {
-        CONFIG_DEF
+        CONFIG_DEF = configDef()
                 .define(ES_ADDRESS, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
                         ConfigDef.Importance.HIGH, ES_ADDRESS_DOC,
                         ES_GROUP, 1, ConfigDef.Width.LONG, ES_ADDRESS_DISPLAY)

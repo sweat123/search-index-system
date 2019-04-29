@@ -5,6 +5,7 @@ import com.laomei.sis.SisRecord;
 import com.laomei.sis.JavaTypeConverterUtil;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.common.SolrInputDocument;
+import org.apache.solr.common.StringUtils;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -66,6 +67,10 @@ public class SolrUpdateReducer extends AbstractSolrReducer {
                 enumerateContext((Map<String, Object>) value, document);
             } else {
                 String targetClass = schemaHelper.getTargetClass(key);
+                if (StringUtils.isEmpty(targetClass)) {
+                    // There is no field in solr having the same name with current key;
+                    continue;
+                }
                 String javaType = toJavaType(targetClass).getSimpleName();
                 Object solrTypeObj = JavaTypeConverterUtil.javaTypeConvertToTargetType(value, javaType);
                 document.addField(key, solrTypeObj);

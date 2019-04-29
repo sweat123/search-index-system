@@ -63,17 +63,20 @@ public class EmbeddedEngine implements Runnable {
         this.running = new AtomicBoolean(false);
     }
 
+    @Override
     public void run() {
+        logger.info("[Embedded Engine] embedded engine thread start, begin to init engine");
         final String sisTaskName = String.valueOf(additionalConfigs.get("sis.task"));
         final String connectorClassName = String.valueOf(additionalConfigs.get("connector.class"));
         SinkConnector connector = null;
 
         //instance sink connector
         try {
+            logger.info("[Embedded Engine] instance sink connector");
             Class<? extends SinkConnector> connectorClass = (Class<? extends SinkConnector>) classLoader.loadClass(connectorClassName);
             connector = connectorClass.newInstance();
         } catch (Exception e) {
-            logger.error("Failed to start connector; Can not find class {}", connectorClassName);
+            logger.error("[Embedded Engine] Failed to start connector; Can not find class {}", connectorClassName);
             return;
         }
 
@@ -87,14 +90,16 @@ public class EmbeddedEngine implements Runnable {
                 logger.error(e.getMessage());
             }
         };
+        logger.info("[Embedded Engine] initialize connector context");
         connector.initialize(connectorContext);
+        logger.info("[Embedded Engine] start connector");
         connector.start(convertAsString(config.getOriginalConfigs()));
         Class<? extends Task> taskClass = connector.taskClass();
         SinkTask task = null;
         try {
             task = (SinkTask) taskClass.newInstance();
         } catch (IllegalAccessException | InstantiationException e) {
-            logger.error("instance sis task failed");
+            logger.error("[Embedded Engine] instance sis task failed");
             return;
         }
         task.initialize(new DefaultSinkTaskContext());
@@ -108,14 +113,14 @@ public class EmbeddedEngine implements Runnable {
             Converter valueConverter = buildConverter(false);
             sourceKafkaConsumer.subscribe(topics);
 
-            logger.info("sis task '{}' started", sisTaskName);
+            logger.info("[Embedded Engine] sis task '{}' started", sisTaskName);
 
             while (running.get()) {
                 ConsumerRecords<byte[], byte[]> msgs = sourceKafkaConsumer.poll(500);
                 if (msgs.isEmpty()) {
                     continue;
                 }
-                logger.info("embedded engine receive {} records", msgs.count());
+                logger.info("[Embedded Engine] embedded engine receive {} records", msgs.count());
                 List<SinkRecord> sinkRecords = new ArrayList<>(msgs.count());
                 for (ConsumerRecord<byte[], byte[]> msg : msgs) {
                     SchemaAndValue keyAndSchema = keyConverter.toConnectData(msg.topic(), msg.key());
@@ -129,25 +134,25 @@ public class EmbeddedEngine implements Runnable {
                             msg.timestampType());
                     sinkRecords.add(sinkRecord);
                 }
-                logger.info("put {} records to sink task", msgs.count());
+                logger.info("[Embedded Engine] put {} records to sink task", msgs.count());
                 task.put(sinkRecords);
             }
         } catch (Throwable t) {
-            logger.error("embedded engine work error", t);
+            logger.error("[Embedded Engine] embedded engine work error", t);
         } finally {
             if (sourceKafkaConsumer != null) {
                 sourceKafkaConsumer.close();
             }
-            logger.info("stop task");
+            logger.info("[Embedded Engine] stop task");
             task.stop();
-            logger.info("stop connector");
+            logger.info("[Embedded Engine] stop connector");
             connector.stop();
-            logger.info("sis task '{}' stopped", sisTaskName);
+            logger.info("[Embedded Engine] sis task '{}' stopped", sisTaskName);
         }
     }
 
     public void close() {
-        logger.info("begin to close embedded engine");
+        logger.info("[Embedded Engine] begin to close embedded engine");
         running.set(false);
     }
 

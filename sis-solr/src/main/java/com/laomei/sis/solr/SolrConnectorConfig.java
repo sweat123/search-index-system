@@ -53,8 +53,10 @@ public class SolrConnectorConfig extends BaseConnectorConfig {
     //group
     private static final String SOLR_GROUP = "Solr";
 
+    private static final ConfigDef CONFIG_DEF;
+
     static {
-        CONFIG_DEF
+        CONFIG_DEF = configDef()
                 .define(SOLR_CLOUD_ZK_HOST, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
                         ConfigDef.Importance.HIGH, SOLR_CLOUD_ZK_HOST_DOC,
                         SOLR_GROUP, 1, ConfigDef.Width.LONG, SOLR_CLOUD_ZK_HOST_DISPLAY)

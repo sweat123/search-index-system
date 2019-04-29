@@ -101,10 +101,17 @@
         <dependency>
             <groupId>com.laomei.connect</groupId>
             <artifactId>sis-solr</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.laomei.connect</groupId>
             <artifactId>sis-es</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.laomei.connect</groupId>
+            <artifactId>sis-mysql</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -206,10 +213,12 @@
                                     <link>embedded-test-zk:embedded-test-zk</link>
                                 </links>
                                 <env>
+                                    <KAFKA_ADVERTISED_LISTENERS>PLAINTEXT://127.0.0.1</KAFKA_ADVERTISED_LISTENERS>
                                     <KAFKA_ADVERTISED_HOST_NAME>127.0.0.1</KAFKA_ADVERTISED_HOST_NAME>
                                     <ZOOKEEPER_CONNECT>embedded-test-zk:2181</ZOOKEEPER_CONNECT>
                                     <KAFKA_NUM_PARTITIONS>1</KAFKA_NUM_PARTITIONS>
                                     <KAFKA_DEFAULT_REPLICATION_FACTOR>1</KAFKA_DEFAULT_REPLICATION_FACTOR>
+                                    <KAFKA_AUTO_CREATE_TOPICS_ENABLE>true</KAFKA_AUTO_CREATE_TOPICS_ENABLE>
                                 </env>
                                 <ports>
                                     <port>9092:9092</port>

@@ -6,6 +6,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
+ * Not support delete operator
  * @author laomei on 2019/4/23 19:40
  */
 public class MysqlTaskContext extends DefaultTaskContext {
@@ -40,14 +41,8 @@ public class MysqlTaskContext extends DefaultTaskContext {
         this.dataSource = ds;
         MysqlSchemaHelper schemaHelper = new MysqlSchemaHelper(jdbcTemplate, config.sinkMysqlTable);
         schemaHelper.init();
-        String mode = config.sinkMysqlMode;
-        if (mode.equals("update")) {
-            reducer = new MysqlUpsertReducer(schemaHelper, jdbcTemplate, config.sinkMysqlTable);
-        } else if (mode.equals("delete")) {
-            reducer = new MysqlDeleteReducer(schemaHelper, jdbcTemplate, config.sinkMysqlTable);
-        } else {
-            throw new IllegalArgumentException("illegal mysql index mode; you have to set mysql mode with 'update' or 'delete'");
-        }
+        // not we only support upsert
+        reducer = new MysqlUpsertReducer(schemaHelper, jdbcTemplate, config.sinkMysqlTable);
     }
 
     @Override

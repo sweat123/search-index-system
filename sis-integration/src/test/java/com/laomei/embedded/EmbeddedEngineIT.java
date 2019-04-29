@@ -8,6 +8,7 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -20,6 +21,7 @@ import java.util.Map;
 /**
  * @author laomei on 2019/2/17 15:22
  */
+@Ignore
 public class EmbeddedEngineIT extends JdbcBaseIT {
 
     @Before
@@ -37,8 +39,9 @@ public class EmbeddedEngineIT extends JdbcBaseIT {
             }
             return results;
         });
-        tables.forEach(System.out::println);
-        Assert.assertEquals(tables.size(), 2);
+        tables.forEach(logger::info);
+        // include flyway_schema_history
+        Assert.assertEquals(3, tables.size());
     }
 
     @Test

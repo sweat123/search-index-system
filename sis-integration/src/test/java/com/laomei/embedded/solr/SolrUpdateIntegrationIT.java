@@ -2,7 +2,9 @@ package com.laomei.embedded.solr;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrDocumentList;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -14,10 +16,22 @@ import java.util.concurrent.TimeUnit;
  */
 public class SolrUpdateIntegrationIT extends AbstractSolrIntegrationIT {
 
+    @Before
+    @Override
+    public void init() throws IOException, SolrServerException, InterruptedException {
+        super.init();
+    }
+
+    @After
+    @Override
+    public void after() throws IOException {
+        super.after();
+    }
+
     @Test
     public void testSisUpdateSolr() throws IOException, SolrServerException, InterruptedException {
         jdbcTemplate.execute("INSERT INTO user_desc(name, address, weight) VALUES('user5', 'address5', 10.5)");
-        // we need to wait to 2s;
+        // we need to wait to 5s;
         // sis will consume the record provided by dbz and insert the value to solr
         TimeUnit.SECONDS.sleep(5);
         SolrDocumentList documents = query(USER_DESC, Collections.singletonMap("q", "name:user5"));
