@@ -1,5 +1,4 @@
 [![Build Status](https://travis-ci.org/sweat123/search-index-system.svg?branch=master)](https://travis-ci.org/sweat123/search-index-system.svg?branch=master)
-[![codecov](https://codecov.io/gh/sweat123/search-index-system/branch/master/graph/badge.svg)](https://codecov.io/gh/sweat123/search-index-system)
 
 # index system base on kafka connect
 
