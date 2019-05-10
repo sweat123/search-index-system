@@ -82,25 +82,29 @@ public abstract class AbstractElasticsearchIntegrationIT extends AbstractEmbedde
             {
                 builder.startObject();
                 {
-                    builder.startObject("properties");
+                    builder.startObject("_doc");
                     {
-                        builder.startObject("id");
-                        builder.field("type", "long");
-                        builder.endObject();
-                    }
-                    {
-                        builder.startObject("name");
-                        builder.field("type", "text");
-                        builder.endObject();
-                    }
-                    {
-                        builder.startObject("address");
-                        builder.field("type", "text");
-                        builder.endObject();
-                    }
-                    {
-                        builder.startObject("weight");
-                        builder.field("type", "double");
+                        builder.startObject("properties");
+                        {
+                            builder.startObject("id");
+                            builder.field("type", "long");
+                            builder.endObject();
+                        }
+                        {
+                            builder.startObject("name");
+                            builder.field("type", "text");
+                            builder.endObject();
+                        }
+                        {
+                            builder.startObject("address");
+                            builder.field("type", "text");
+                            builder.endObject();
+                        }
+                        {
+                            builder.startObject("weight");
+                            builder.field("type", "double");
+                            builder.endObject();
+                        }
                         builder.endObject();
                     }
                     builder.endObject();
