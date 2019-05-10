@@ -26,10 +26,6 @@ public class EsConnectorConfig extends BaseConnectorConfig {
     private static final String ES_INDEX_DOC = "es index";
     private static final String ES_INDEX_DISPLAY = "es index";
 
-    public static final  String ES_TYPE = "es.type";
-    private static final String ES_TYPE_DOC = "es type";
-    private static final String ES_TYPE_DISPLAY = "es type";
-
     public static final  String ES_MODE = "es.mode";
     private static final String ES_MODE_DOC = "es mode; delete or update (include insert)";
     private static final String ES_MODE_DISPLAY = "es mode; delete or update (include insert)";
@@ -54,9 +50,6 @@ public class EsConnectorConfig extends BaseConnectorConfig {
                 .define(ES_INDEX, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
                         ConfigDef.Importance.HIGH, ES_INDEX_DOC,
                         ES_GROUP, 4, ConfigDef.Width.LONG, ES_INDEX_DISPLAY)
-                .define(ES_TYPE, ConfigDef.Type.STRING, ConfigDef.NO_DEFAULT_VALUE,
-                        ConfigDef.Importance.MEDIUM, ES_TYPE_DOC,
-                        ES_GROUP, 5, ConfigDef.Width.MEDIUM, ES_TYPE_DISPLAY)
                 .define(ES_MODE, ConfigDef.Type.STRING, "update",
                         ConfigDef.Importance.LOW, ES_MODE_DOC,
                         ES_GROUP, 6, ConfigDef.Width.MEDIUM, ES_MODE_DISPLAY);
@@ -74,8 +67,6 @@ public class EsConnectorConfig extends BaseConnectorConfig {
 
     public final String esIndex;
 
-    public final String esType;
-
     public final String esMode;
 
     public EsConnectorConfig(Map<String, ?> props) {
@@ -84,7 +75,6 @@ public class EsConnectorConfig extends BaseConnectorConfig {
         esUsername = getString(ES_USERNAME);
         esPassword = getString(ES_PASSWORD);
         esIndex = getString(ES_INDEX);
-        esType = getString(ES_TYPE);
         esMode = getString(ES_MODE);
     }
 }

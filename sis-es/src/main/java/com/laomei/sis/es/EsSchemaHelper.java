@@ -23,14 +23,11 @@ public class EsSchemaHelper implements SchemaHelper {
 
     private final String              index;
 
-    private final String              type;
-
     private Map<String, String>       schemaMap;
 
-    public EsSchemaHelper(final RestHighLevelClient client, String index, String type) {
+    public EsSchemaHelper(final RestHighLevelClient client, String index) {
         this.client = client;
         this.index = index;
-        this.type = type;
     }
 
     @Override
@@ -38,7 +35,7 @@ public class EsSchemaHelper implements SchemaHelper {
         Response response = null;
         final JsonNode root;
         try {
-            response = client.getLowLevelClient().performRequest(new Request("GET", String.format("/%s/_mapping/%s", index, type)));
+            response = client.getLowLevelClient().performRequest(new Request("GET", String.format("/%s/_mapping/_doc", index)));
             root = OBJECT_MAPPER.readTree(response.getEntity().getContent());
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -51,7 +48,7 @@ public class EsSchemaHelper implements SchemaHelper {
             throw new RuntimeException("can not get mapping");
         }
         Map<String, String> map = new HashMap<>();
-        JsonNode properties = root.iterator().next().get("mappings").get(type).get("properties");
+        JsonNode properties = root.iterator().next().get("mappings").get("_doc").get("properties");
         properties.fields().forEachRemaining(stringJsonNodeEntry -> {
             String propertyName = stringJsonNodeEntry.getKey();
             String propertyType = stringJsonNodeEntry.getValue().get("type").asText();

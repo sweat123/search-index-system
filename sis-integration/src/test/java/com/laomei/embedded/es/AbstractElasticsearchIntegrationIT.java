@@ -1,7 +1,10 @@
 package com.laomei.embedded.es;
 
 import com.laomei.embedded.AbstractEmbeddedEngineIT;
+import com.laomei.embedded.EmbeddedEngine;
+import com.laomei.sis.es.EsConnectorConfig;
 import org.apache.http.HttpHost;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
@@ -12,6 +15,8 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -25,11 +30,45 @@ public abstract class AbstractElasticsearchIntegrationIT extends AbstractEmbedde
 
     protected              RestHighLevelClient restHighLevelClient = null;
 
+    protected abstract String getSisMode();
+
     @Override
     public void init() throws IOException, SolrServerException, InterruptedException {
         initElasticsearchClient();
         initElasticsearchIndex();
         super.init();
+    }
+
+    @Override
+    public void after() throws IOException {
+        restHighLevelClient.close();
+    }
+
+    @Override
+    protected void initEmbeddedEngine() {
+        logger.info("build elasticsearch embedded engine");
+        Map<String, Object> config = new HashMap<>();
+        Map<String, Object> additionalConfig = new HashMap<>();
+        String jdbcUrl = System.getProperty("spring.datasource.url");
+        config.put(EsConnectorConfig.ES_ADDRESS, "http://localhost:9200");
+        config.put(EsConnectorConfig.ES_MODE, getSisMode());
+        config.put(EsConnectorConfig.ES_INDEX, "user_desc");
+        config.put(EsConnectorConfig.CONNECTOR_NAME, "sis-test-task-es");
+        config.put(EsConnectorConfig.DEFAULT_MYSQL_URL, jdbcUrl);
+        config.put(EsConnectorConfig.DEFAULT_MYSQL_USERNAME, "root");
+        config.put(EsConnectorConfig.DEFAULT_MYSQL_PASSWORD, "sis-embedded");
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        config.put(ConsumerConfig.GROUP_ID_CONFIG, "sis.es.integration.test.v1.0");
+        config.put(EsConnectorConfig.SOURCE_CONFIGURATIONS, getSisSourceConfiguration());
+        config.put(EsConnectorConfig.EXECUTOR_CONFIGURATIONS, getSisExecutorConfiguration());
+        EsConnectorConfig connectorConfig = new EsConnectorConfig(config);
+        additionalConfig.put("topics", "sis.sis.user_desc");
+        additionalConfig.put("tasks.max", 1);
+        additionalConfig.put("sis.task", "sis.es.integration.test.v1.0");
+        additionalConfig.put("connector.class", "com.laomei.sis.es.EsConnector");
+        additionalConfig.put("auto.offset.reset", "earliest");
+        additionalConfig.put("schema.registry.url", "http://localhost:8082");
+        engine = new EmbeddedEngine(connectorConfig, additionalConfig);
     }
 
     private void initElasticsearchIndex() throws IOException {

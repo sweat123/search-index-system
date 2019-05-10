@@ -23,8 +23,6 @@ public abstract class AbstractEsReducer extends AbstractReducer {
 
     protected final String              index;
 
-    protected final String              type;
-
     public AbstractEsReducer(final SchemaHelper schemaHelper, final BulkProcessor bulkProcessor,
             final RestHighLevelClient client, final EsConnectorConfig connectorConfig) {
         super(schemaHelper);
@@ -32,7 +30,6 @@ public abstract class AbstractEsReducer extends AbstractReducer {
         this.client = client;
         this.connectorConfig = connectorConfig;
         this.index = connectorConfig.esIndex;
-        this.type = connectorConfig.esType;
     }
 
     protected void doReducer(DocWriteRequest request) {

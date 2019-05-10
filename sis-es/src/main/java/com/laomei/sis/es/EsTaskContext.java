@@ -40,7 +40,7 @@ public class EsTaskContext extends DefaultTaskContext {
     @Override
     public void initSinkReducer() {
         RestHighLevelClient client = createEsClient();
-        SchemaHelper schemaHelper = new EsSchemaHelper(client, configs.esIndex, configs.esType);
+        SchemaHelper schemaHelper = new EsSchemaHelper(client, configs.esIndex);
         try {
             schemaHelper.init();
         } catch (Exception e) {

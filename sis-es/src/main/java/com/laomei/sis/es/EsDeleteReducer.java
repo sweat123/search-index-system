@@ -24,7 +24,7 @@ public class EsDeleteReducer extends AbstractEsReducer {
     public void reduce(final List<SisRecord> sisRecords) {
         List<DeleteRequest> requests = sisRecords.stream().filter(record -> record.hasValue(ID))
                 .map(record -> record.getValue(ID))
-                .map(id -> new DeleteRequest(index, type, String.valueOf(id)))
+                .map(id -> new DeleteRequest(index, String.valueOf(id)))
                 .collect(Collectors.toList());
         if (requests.isEmpty()) {
             return;

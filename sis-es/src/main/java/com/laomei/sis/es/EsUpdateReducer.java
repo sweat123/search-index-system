@@ -33,7 +33,8 @@ public class EsUpdateReducer extends AbstractEsReducer {
                 .map(c -> {
                     Map<String, Object> context = c.getContext();
                     String id = context.get(ID).toString();
-                    IndexRequest request = new IndexRequest(index, type, id);
+                    IndexRequest request = new IndexRequest(index);
+                    request.id(id);
                     request.source(expose(new HashMap<>(), context));
                     return request;
                 }).collect(Collectors.toList());
