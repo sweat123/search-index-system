@@ -330,6 +330,33 @@
                                 </cmd>
                             </run>
                         </image>
+                        <image>
+                            <alias>elasticsearch</alias>
+                            <name>docker.elastic.co/elasticsearch/elasticsearch:6.7.2</name>
+                            <run>
+                                <namingStrategy>alias</namingStrategy>
+                                <wait>
+                                    <log>elasticsearch init process done.</log>
+                                    <time>30000</time>
+                                    <tcp>
+                                        <ports>
+                                            <port>9200</port>
+                                        </ports>
+                                    </tcp>
+                                </wait>
+                                <log>
+                                    <prefix>[elasticsearch]</prefix>
+                                    <enabled>true</enabled>
+                                </log>
+                                <ports>
+                                    <port>9200:9200</port>
+                                    <port>9300:9300</port>
+                                </ports>
+                                <env>
+                                    <discovery.type>single-node</discovery.type>
+                                </env>
+                            </run>
+                        </image>
                     </images>
                 </configuration>
                 <executions>

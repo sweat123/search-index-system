@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.laomei.sis.SchemaHelper;
 import org.apache.http.util.EntityUtils;
+import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestHighLevelClient;
 
@@ -37,7 +38,7 @@ public class EsSchemaHelper implements SchemaHelper {
         Response response = null;
         final JsonNode root;
         try {
-            response = client.getLowLevelClient().performRequest("GET", String.format("/%s/_mapping/%s", index, type));
+            response = client.getLowLevelClient().performRequest(new Request("GET", String.format("/%s/_mapping/%s", index, type)));
             root = OBJECT_MAPPER.readTree(response.getEntity().getContent());
         } catch (IOException e) {
             throw new RuntimeException(e);

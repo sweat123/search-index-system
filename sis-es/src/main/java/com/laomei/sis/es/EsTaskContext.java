@@ -10,6 +10,7 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.elasticsearch.action.bulk.BulkProcessor;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -20,7 +21,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.stream.Stream;
 
 /**
@@ -62,23 +62,27 @@ public class EsTaskContext extends DefaultTaskContext {
     }
 
     private BulkProcessor createBulkProcessor(RestHighLevelClient client) {
-        return BulkProcessor.builder(client::bulkAsync, new BulkProcessor.Listener() {
-                    @Override
-                    public void beforeBulk(final long executionId, final BulkRequest request) {
-                    }
-                    @Override
-                    public void afterBulk(final long executionId, final BulkRequest request, final BulkResponse response) {
-                        if (response.hasFailures()) {
-                            logger.error("error while processing bulk:" + response.buildFailureMessage());
-                        }
-                    }
-                    @Override
-                    public void afterBulk(final long executionId, final BulkRequest request, final Throwable failure) {
-                        if (failure != null) {
-                            logger.error("error while processing bulk", failure);
-                        }
-                    }
-                }
+        return BulkProcessor.builder((bulkRequest, listener) -> {
+            client.bulkAsync(bulkRequest, RequestOptions.DEFAULT, listener);
+        }, new BulkProcessor.Listener() {
+                 @Override
+                 public void beforeBulk(final long executionId, final BulkRequest request) {
+                 }
+
+                 @Override
+                 public void afterBulk(final long executionId, final BulkRequest request, final BulkResponse response) {
+                     if (response.hasFailures()) {
+                         logger.error("error while processing bulk:" + response.buildFailureMessage());
+                     }
+                 }
+
+                 @Override
+                 public void afterBulk(final long executionId, final BulkRequest request, final Throwable failure) {
+                     if (failure != null) {
+                         logger.error("error while processing bulk", failure);
+                     }
+                 }
+             }
         ).setFlushInterval(TimeValue.timeValueSeconds(1)).build();
     }
 
