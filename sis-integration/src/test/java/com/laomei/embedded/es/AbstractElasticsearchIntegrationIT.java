@@ -80,18 +80,13 @@ public abstract class AbstractElasticsearchIntegrationIT extends AbstractEmbedde
         {
             builder.startObject("properties");
             {
-                builder.startObject("id");
-                builder.field("type", "long");
-                builder.endObject();
-            }
-            {
                 builder.startObject("name");
-                builder.field("type", "text");
+                builder.field("type", "string");
                 builder.endObject();
             }
             {
                 builder.startObject("address");
-                builder.field("type", "text");
+                builder.field("type", "string");
                 builder.endObject();
             }
             {
